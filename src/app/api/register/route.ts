@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     // No Stripe configured — send confirmation directly
     await Promise.all([
       sendRegistrationConfirmation({ name: data.fullName, email: data.email, workshop: data.workshop }),
-      sendRegistrationNotification(data),
+      sendRegistrationNotification({ name: data.fullName, email: data.email, phone: data.phone, workshop: data.workshop, message: data.message }),
     ]);
 
     return NextResponse.json({ success: true });
