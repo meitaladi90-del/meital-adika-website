@@ -41,8 +41,7 @@ export async function createCheckoutSession({
     },
     success_url: successUrl,
     cancel_url: cancelUrl,
-    locale: "he",
-  });
+  } as Stripe.Checkout.SessionCreateParams);
 
   return session;
 }
