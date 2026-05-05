@@ -35,7 +35,7 @@ export default function Footer() {
                 <Phone size={20} />
               </a>
               <a
-                href="mailto:meital@meitaladika.co.il"
+                href="mailto:meital.adika.consulting@gmail.com"
                 className="text-cream/60 hover:text-gold transition-colors"
                 aria-label="Email"
               >
@@ -80,16 +80,16 @@ export default function Footer() {
                   className="flex items-center gap-2 hover:text-gold transition-colors"
                 >
                   <Phone size={15} />
-                  <span dir="ltr">+972-52-123-4567</span>
+                  <span dir="ltr">+972-54-226-8860</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:meital@meitaladika.co.il"
+                  href="mailto:meital.adika.consulting@gmail.com"
                   className="flex items-center gap-2 hover:text-gold transition-colors"
                 >
                   <Mail size={15} />
-                  meital@meitaladika.co.il
+                  meital.adika.consulting@gmail.com
                 </a>
               </li>
               <li className="pt-4">
