@@ -78,8 +78,8 @@ const jsonLd = {
   description:
     "מאמנת נומרולוגיה ומנחת העצמת נשים. ייעוץ אישי, סדנאות ומעגלי נשים.",
   url: siteUrl,
-  telephone: "+972521234567",
-  email: "meital@meitaladika.co.il",
+  telephone: "+972542268860",
+  email: "meital.adika.consulting@gmail.com",
   address: {
     "@type": "PostalAddress",
     addressCountry: "IL",
