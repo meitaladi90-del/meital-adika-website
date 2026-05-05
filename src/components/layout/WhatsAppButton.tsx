@@ -2,14 +2,11 @@
 
 import { motion } from "framer-motion";
 
-const whatsappNumber =
-  typeof window !== "undefined"
-    ? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972521234567"
-    : "972521234567";
+const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860";
 
 export default function WhatsAppButton() {
   const message = encodeURIComponent("שלום מיטל! אשמח לשמוע עוד על השירותים שלך 😊");
-  const href = `https://wa.me/${whatsappNumber}?text=${message}`;
+  const href = `https://wa.me/${WA_NUMBER}?text=${message}`;
 
   return (
     <motion.a
