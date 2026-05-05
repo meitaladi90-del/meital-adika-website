@@ -1,0 +1,115 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { href: "/", label: "בית" },
+  { href: "/about", label: "אודות" },
+  { href: "/services", label: "שירותים" },
+  { href: "/workshop", label: "סדנת העומק" },
+  { href: "/testimonials", label: "המלצות" },
+  { href: "/contact", label: "צרי קשר" },
+];
+
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-cream/95 backdrop-blur-sm shadow-sm border-b border-gold/20"
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="max-w-6xl mx-auto px-4 md:px-8 lg:px-16 h-16 md:h-20 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex flex-col leading-none group">
+          <span className="text-xl font-bold text-brown group-hover:text-gold transition-colors duration-200">
+            מיטל עדיקה
+          </span>
+          <span className="text-xs text-brown/60 font-light tracking-wider">
+            נומרולוגיה | העצמת נשים
+          </span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <ul className="hidden md:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="px-4 py-2 text-sm font-medium text-brown/80 hover:text-brown hover:bg-gold/10 rounded-full transition-all duration-200"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <Link
+          href="/contact"
+          className="hidden md:inline-flex items-center px-5 py-2 bg-brown text-cream text-sm font-medium rounded-full hover:bg-brown-light transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+        >
+          קבעי שיחה
+        </Link>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden p-2 text-brown rounded-full hover:bg-gold/10 transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="תפריט"
+        >
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden overflow-hidden bg-cream/98 backdrop-blur-sm border-b border-gold/20"
+          >
+            <ul className="px-4 py-4 flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block px-4 py-3 text-brown font-medium hover:bg-gold/10 rounded-xl transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="mt-2">
+                <Link
+                  href="/contact"
+                  className="block text-center px-5 py-3 bg-brown text-cream font-medium rounded-full hover:bg-brown-light transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  קבעי שיחה
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
