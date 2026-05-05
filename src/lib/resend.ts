@@ -36,7 +36,7 @@ export async function sendRegistrationConfirmation(data: {
   return resend.emails.send({
     from: "מיטל עדיקה <noreply@meitaladika.co.il>",
     to: [data.email],
-    replyTo: CONTACT_EMAIL,
+    reply_to: CONTACT_EMAIL,
     subject: `אישור הרשמה - ${data.workshop}`,
     html: `
       <div dir="rtl" style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f5f0e8; padding: 32px; border-radius: 12px;">
