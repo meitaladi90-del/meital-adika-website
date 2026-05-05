@@ -34,7 +34,7 @@ export default function CtaSection() {
               קבעי שיחה חינמית עכשיו
             </Link>
             <a
-              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972521234567"}?text=${encodeURIComponent("שלום מיטל! אשמח לקבוע שיחת היכרות 😊")}`}
+              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860"}?text=${encodeURIComponent("שלום מיטל! אשמח לקבוע שיחת היכרות 😊")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-9 py-4 border-2 border-cream/60 text-cream font-medium rounded-full text-lg hover:border-cream hover:bg-cream/10 transition-all duration-300 hover:-translate-y-0.5"
