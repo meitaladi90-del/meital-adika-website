@@ -95,7 +95,7 @@ export default function ContactPage() {
                       className="text-brown/70 hover:text-gold transition-colors"
                       dir="ltr"
                     >
-                      +972-52-123-4567
+                      +972-54-226-8860
                     </a>
                   </div>
                 </div>
@@ -107,10 +107,10 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-brown">דואר אלקטרוני</p>
                     <a
-                      href="mailto:meital@meitaladika.co.il"
+                      href="mailto:meital.adika.consulting@gmail.com"
                       className="text-brown/70 hover:text-gold transition-colors"
                     >
-                      meital@meitaladika.co.il
+                      meital.adika.consulting@gmail.com
                     </a>
                   </div>
                 </div>
