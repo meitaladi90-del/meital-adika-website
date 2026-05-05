@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Instagram, Mail, Phone } from "lucide-react";
 
-const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972521234567";
+const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860";
 
 export default function Footer() {
   return (
