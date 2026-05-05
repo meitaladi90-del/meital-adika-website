@@ -65,7 +65,7 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-cream/75 text-xl leading-relaxed"
           >
-            מאמנת נומרולוגיה, מנחת מעגלי נשים וחרא של אישה שעברה דרך.
+            מאמנת נומרולוגיה, מנחת מעגלי נשים וליווי נשים לחיים מיושרים.
             <br />
             <span className="text-gold">עכשיו אני כאן בשבילך.</span>
           </motion.p>
