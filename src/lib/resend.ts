@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "meital@meitaladika.co.il";
+export const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "meital.adika.consulting@gmail.com";
 
 export async function sendContactEmail(data: {
   name: string;
