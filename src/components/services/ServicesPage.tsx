@@ -172,7 +172,7 @@ export default function ServicesPage() {
                       {service.cta} ←
                     </Link>
                     <a
-                      href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972521234567"}?text=${encodeURIComponent(`שלום מיטל! אשמח לשמוע עוד על "${service.title}" 😊`)}`}
+                      href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860"}?text=${encodeURIComponent(`שלום מיטל! אשמח לשמוע עוד על "${service.title}" 😊`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center px-7 py-3 border-2 border-[#25D366] text-[#25D366] font-medium rounded-full hover:bg-[#25D366] hover:text-white transition-all duration-300"
