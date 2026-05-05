@@ -24,7 +24,7 @@ export default function WorkshopSuccess() {
             חזרה לדף הבית
           </Link>
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972521234567"}?text=${encodeURIComponent("שלום מיטל! נרשמתי לסדנת העומק ואשמח לתאם את המפגשים 😊")}`}
+            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860"}?text=${encodeURIComponent("שלום מיטל! נרשמתי לסדנת העומק ואשמח לתאם את המפגשים 😊")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="px-7 py-3 border-2 border-[#25D366] text-[#25D366] font-medium rounded-full hover:bg-[#25D366] hover:text-white transition-colors"
