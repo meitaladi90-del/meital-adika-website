@@ -23,7 +23,7 @@ export default function InstagramFeed() {
           className="text-center mb-10"
         >
           <a
-            href="https://instagram.com/meitaladika"
+            href="https://www.instagram.com/meital.adika?igsh=OGJ2MTJsaDM5Nm80"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 group"
@@ -44,7 +44,7 @@ export default function InstagramFeed() {
           {placeholderPosts.map((post, i) => (
             <motion.a
               key={post.id}
-              href="https://instagram.com/meitaladika"
+              href="https://www.instagram.com/meital.adika?igsh=OGJ2MTJsaDM5Nm80"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.9 }}
