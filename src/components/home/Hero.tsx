@@ -2,102 +2,110 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Hero() {
+  const scrollToForm = () => {
+    document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-brown to-brown-dark">
-      {/* Decorative orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-gold/10 blur-3xl" />
-        <div className="absolute top-1/3 -left-24 w-72 h-72 rounded-full bg-terracotta/10 blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-sage/10 blur-3xl" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-brown-dark via-brown to-brown-dark">
+      {/* Background blobs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 right-0 w-[500px] h-[500px] rounded-full bg-gold/8 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-terracotta/8 blur-3xl" />
       </div>
 
-      {/* Subtle dot pattern */}
+      {/* Dot pattern */}
       <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: "radial-gradient(circle, #c9a97a 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
+        className="absolute inset-0 opacity-[0.04]"
+        style={{ backgroundImage: "radial-gradient(circle, #c9a97a 1px, transparent 1px)", backgroundSize: "36px 36px" }}
       />
 
-      <div className="relative z-10 max-w-3xl mx-auto px-4 md:px-8 text-center flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-16 py-32">
+        <div className="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-16">
 
-        {/* Brand title */}
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-6xl md:text-7xl lg:text-8xl font-bold text-cream tracking-tight mb-10"
-          style={{ letterSpacing: "-0.02em" }}
-        >
-          Adik<span className="text-gold">Aura</span>
-        </motion.h1>
-
-        {/* Portrait image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative mb-10"
-        >
-          {/* Glow ring */}
-          <div className="absolute inset-0 rounded-full bg-gold/20 blur-xl scale-110" />
-
-          <div className="relative w-[220px] h-[280px] md:w-[280px] md:h-[360px] rounded-[50%] overflow-hidden border-4 border-gold/40 shadow-2xl">
-            <Image
-              src="/meital-photo.jpg"
-              alt="מיטל עדיקה"
-              fill
-              className="object-cover object-top"
-              priority
-            />
-          </div>
-        </motion.div>
-
-        {/* Hebrew tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="text-center leading-relaxed max-w-xl mx-auto mb-10"
-          style={{ fontSize: "18px", color: "#f5f0e8" }}
-        >
-          מלווה נשים לגילוי הפוטנציאל המלא — דרך המספרים האישיים שלך,
-          <br className="hidden sm:block" />
-          לחיים הרמוניים, מלאי משמעות, שפע ואהבה עצמית
-        </motion.p>
-
-        {/* Single CTA button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
-        >
-          <Link
-            href="/contact"
-            className="px-10 py-4 bg-gold text-cream font-semibold rounded-full text-lg hover:bg-gold-dark hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0"
-          >
-            לתיאום ייעוץ
-          </Link>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-cream/40"
-        >
-          <span className="text-xs tracking-widest">גללי למטה</span>
+          {/* LEFT — Text (visually left on desktop, below on mobile) */}
           <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-0.5 h-8 bg-gradient-to-b from-gold/60 to-transparent"
-          />
-        </motion.div>
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex-1 text-right"
+          >
+            {/* Brand */}
+            <p className="text-gold/70 text-sm tracking-[0.25em] uppercase mb-3 font-light">
+              נומרולוגיה · העצמת נשים
+            </p>
+            <h1
+              className="font-bold leading-none mb-7"
+              style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)", color: "#c9a97a", letterSpacing: "-0.02em" }}
+            >
+              AdikAura
+            </h1>
+
+            {/* Divider */}
+            <div className="flex justify-end mb-7">
+              <div className="h-px w-20 bg-gradient-to-l from-gold/70 to-transparent" />
+            </div>
+
+            {/* Tagline */}
+            <p
+              className="leading-[1.85] mb-10 text-cream/85 max-w-md mr-0 ml-auto md:ml-0"
+              style={{ fontSize: "18px" }}
+            >
+              מלווה נשים לגילוי הפוטנציאל המלא — דרך המספרים האישיים שלך,
+              לחיים הרמוניים, מלאי משמעות, שפע ואהבה עצמית
+            </p>
+
+            {/* CTA */}
+            <button
+              onClick={scrollToForm}
+              className="inline-flex items-center gap-2 px-9 py-4 font-bold rounded-full text-lg transition-all duration-300 hover:shadow-[0_8px_30px_rgba(201,169,122,0.4)] hover:-translate-y-0.5 active:translate-y-0"
+              style={{ background: "#c9a97a", color: "#5a3e28" }}
+            >
+              השאירי פרטים ואחזור אלייך 🤍
+            </button>
+          </motion.div>
+
+          {/* RIGHT — Photo in organic blob */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex-none flex justify-center"
+          >
+            <div className="relative">
+              {/* Glow behind blob */}
+              <div
+                className="absolute inset-0 bg-gold/25 blur-2xl scale-110"
+                style={{ borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%" }}
+              />
+
+              {/* Blob image container */}
+              <motion.div
+                animate={{ borderRadius: ["60% 40% 30% 70% / 60% 30% 70% 40%", "40% 60% 70% 30% / 40% 70% 30% 60%", "60% 40% 30% 70% / 60% 30% 70% 40%"] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="relative overflow-hidden"
+                style={{
+                  width: "clamp(220px, 28vw, 300px)",
+                  height: "clamp(280px, 36vw, 390px)",
+                  borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%",
+                  border: "2px solid rgba(201,169,122,0.35)",
+                }}
+              >
+                <Image
+                  src="/meital-photo.jpg"
+                  alt="מיטל עדיקה"
+                  fill
+                  className="object-cover"
+                  style={{ objectPosition: "top center" }}
+                  priority
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );
