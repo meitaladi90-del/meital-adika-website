@@ -38,6 +38,12 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
+function GoldBold({ children }: { children: React.ReactNode }) {
+  return (
+    <strong style={{ color: "#c9a97a", fontWeight: 700 }}>{children}</strong>
+  );
+}
+
 export default function AboutPage() {
   return (
     <>
@@ -57,7 +63,7 @@ export default function AboutPage() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold mt-4 mb-6 leading-tight"
           >
-            שלום, אני מיטל 👋
+            הדרך שלי
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -74,58 +80,70 @@ export default function AboutPage() {
 
       {/* Story */}
       <section className="section-padding bg-cream">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Portrait placeholder */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="order-first md:order-last"
-            >
-              <div className="relative">
-                <div className="aspect-[3/4] rounded-3xl bg-gradient-to-br from-gold/30 to-terracotta/20 flex items-center justify-center border border-gold/20 overflow-hidden">
-                  <div className="text-center text-brown/40">
-                    <div className="text-6xl mb-4">🌺</div>
-                    <p className="text-sm">תמונה של מיטל</p>
-                  </div>
-                </div>
-                {/* Decorative element */}
-                <div className="absolute -bottom-4 -left-4 w-24 h-24 rounded-2xl bg-gold/20 -z-10" />
-                <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-sage/20 -z-10" />
-              </div>
-            </motion.div>
-
-            {/* Text */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="space-y-5 text-brown/80 leading-relaxed text-lg"
-            >
-              <p>
-                לפני כעשר שנים, מצאתי את עצמי בצומת דרכים. הייתי{" "}
-                <strong className="text-brown">אישה מוצלחת על הנייר</strong> — עבודה טובה,
-                משפחה, בית — אבל משהו בפנים כאב. תחושה שאני לא חיה את החיים שנועדו לי.
-              </p>
-              <p>
-                אז נפלה לידי ספרות על נומרולוגיה. בהתחלה הייתי ספקנית, אבל הנתונים דיברו
-                בעד עצמם. המספרים שלי תיארו אותי{" "}
-                <strong className="text-brown">ברמת דיוק שהרעידה אותי</strong>.
-              </p>
-              <p>
-                התחלתי ללמוד לעומק, להסמך, ולעבוד עם נשים. ואז הגילוי האמיתי — כשנשים
-                מבינות את עצמן דרך המספרים, משהו נפתח בהן.{" "}
-                <strong className="text-gold">הן הופכות למי שהן תמיד היו.</strong>
-              </p>
-              <p>
-                מאז ליוויתי למעלה מ-500 נשים בדרך לחיים שמרגישים נכונים. זה הייעוד שלי.
-                זה למה אני קמה בבוקר.
-              </p>
-            </motion.div>
-          </div>
+        <div className="max-w-[700px] mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-right"
+            style={{ fontSize: "17px", lineHeight: 1.9, color: "#5a3e28cc" }}
+          >
+            <p style={{ marginBottom: "1.5rem" }}>
+              תואר במנהל עסקים. משרד שיווק. קריירה &ldquo;מסודרת&rdquo;.
+              הכל By the book — ועדיין, משהו היה חסר.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              אני לא אשכח את היום הזה, שישבתי מול המסך במשרד ושאלתי את עצמי:
+              &rdquo;מה באתי לעשות בעולם? מה הייעוד שלי?&ldquo;
+              הבנתי שככה אני פשוט לא רוצה להמשיך. ידעתי שלשבת תחת פלורסנט
+              מ-9:00 עד 18:00, לעבוד אצל מישהו אחר ולהרגיש כבויה — זה פשוט לא
+              אני. משהו חייב להשתנות.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              התחלתי בשאלה שלא ידעתי לאן היא תיקח אותי: במה אני באמת טובה? מה
+              ממלא אותי? והתשובה הייתה אחת — <GoldBold>אנשים.</GoldBold>
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              תמיד ידעתי שיש לי יכולת להרגיש <GoldBold>אנשים</GoldBold>,
+              לדעת איזו עצה לתת ולגרום להם לראות את הפוטנציאל שבהם. נזכרתי
+              בכל אותם ה<GoldBold>אנשים</GoldBold> שאמרו לי: &rdquo;את זוכרת
+              שאז אמרת לי משהו? הקשבתי לך וזה שינה הכל.&ldquo; פתאום דברים
+              התחילו להתחבר.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              החיפוש הזה הוביל אותי למקומות שלא ציפיתי. הנומרולוגיה תמיד
+              משכה אותי ברקע — אבל הטריגר האמיתי היה אחותי. היא זרקה לי משפט
+              שנשמע לי כמו סינית: &rdquo;מיטל, את בשנת משוב, את מתחילה להתחבר
+              לאנרגיה הנקבית שלך.&ldquo;
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              לא הבנתי מה היא רוצה ממני — אבל אמרתי לעצמי: טוב, אני נרשמת
+              לקורס. ומה שקרה בפועל — המספרים שלי פשוט התחילו להתעורר.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              כבר בשיעור הראשון הרגשתי שהגוף והנשמה שלי מסונכרנים. הגעתי
+              הביתה.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              מאז עברתי מסע שלם. יציאה מאזור הנוחות למרות הפחדים, טיפולים
+              אנרגטיים ושבירת תקרות זכוכית שהיו שם שנים. היום — כל מה שאני
+              מעבירה הלאה, התנסיתי בו על בשרי.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              אני משלבת כלים ריאליים ופרקטיים עם עולם הרוח, ומשתמשת
+              בנומרולוגיה כדי לאבחן מה קורה לך בפנים ולבנות תוכנית מדויקת
+              להתעוררות שלך — לחיים שבהם תרגישי מלאה עם עצמך.
+            </p>
+            <p style={{ marginBottom: "1.5rem" }}>
+              כי לכל אחת מאיתנו יש תאריך לידה. והתאריך הזה אומר עלינו הרבה
+              יותר ממה שאת חושבת.
+            </p>
+            <p>
+              אם אני הצלחתי לשנות את התדר ולמצוא את האור שלי —
+              גם את יכולה.
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -157,6 +175,29 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Mission */}
+      <section className="section-padding bg-gradient-to-br from-sage to-sage-dark text-cream text-center">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="text-4xl block mb-6">🌿</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              המשימה שלי
+            </h2>
+            <p className="text-cream/85 text-xl leading-relaxed">
+              לעזור לכל אישה לגלות מחדש מי היא — לא מה שאמרו לה שהיא — ולחיות חיים
+              שמרגישים מדויקים, מלאי שמחה ושפע אמיתי.
+            </p>
+            <p className="text-gold text-2xl font-bold mt-8">
+              &rdquo;כשאישה מתעוררת, העולם מתעורר איתה.&ldquo;
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Strengths */}
       <section className="section-padding bg-cream">
         <div className="container-max">
@@ -183,29 +224,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="section-padding bg-gradient-to-br from-sage to-sage-dark text-cream text-center">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-4xl block mb-6">🌿</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              המשימה שלי
-            </h2>
-            <p className="text-cream/85 text-xl leading-relaxed">
-              לעזור לכל אישה לגלות מחדש מי היא — לא מה שאמרו לה שהיא — ולחיות חיים
-              שמרגישים מדויקים, מלאי שמחה ושפע אמיתי.
-            </p>
-            <p className="text-gold text-2xl font-bold mt-8">
-              "כשאישה מתעוררת, העולם מתעורר איתה."
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="section-padding bg-cream text-center">
         <motion.div
@@ -214,17 +232,12 @@ export default function AboutPage() {
           viewport={{ once: true }}
           className="max-w-xl mx-auto"
         >
-          <h2 className="text-3xl font-bold text-brown mb-4">
-            רוצה להכיר אותי בעצמך?
-          </h2>
-          <p className="text-brown/70 mb-8 text-lg">
-            בואי לשיחת היכרות חינמית ונראה יחד איך אני יכולה לתמוך בך.
-          </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-9 py-4 bg-brown text-cream font-semibold rounded-full text-lg hover:bg-brown-light hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-9 py-4 font-bold rounded-full text-lg hover:shadow-[0_6px_24px_rgba(201,169,122,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
+            style={{ background: "#c9a97a", color: "#5a3e28" }}
           >
-            קבעי שיחה חינמית ←
+            השאירי פרטים ואחזור אלייך 🤍
           </Link>
         </motion.div>
       </section>
