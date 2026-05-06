@@ -82,12 +82,9 @@ export default function ContactPage() {
             ) : (
               <>
                 <div className="text-center mb-8">
-                  <h2 className="text-xl font-bold text-brown mb-2 leading-snug">
-                    השאירי פרטים ואחזור אלייך תוך 24 שעות 🤍
+                  <h2 className="text-xl font-bold text-brown leading-snug">
+                    השאירי פרטים ואחזור אלייך
                   </h2>
-                  <p className="text-brown/55 text-sm">
-                    מלאי את הפרטים ואיצור איתך קשר אישית
-                  </p>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
