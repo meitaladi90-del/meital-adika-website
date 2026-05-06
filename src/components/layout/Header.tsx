@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "בית" },
-  { href: "/about", label: "אודות" },
+  { href: "/about", label: "הדרך שלי" },
   { href: "/services", label: "שירותים" },
   { href: "/workshop", label: "סדנת העומק" },
   { href: "/testimonials", label: "המלצות" },
