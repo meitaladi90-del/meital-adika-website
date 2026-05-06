@@ -55,7 +55,7 @@ export default function AboutPage() {
             animate={{ opacity: 1 }}
             className="text-gold text-sm tracking-widest uppercase"
           >
-            הסיפור שלי
+            הדרך שלי
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -71,9 +71,9 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-cream/75 text-xl leading-relaxed"
           >
-            מאמנת נומרולוגיה, מנחת מעגלי נשים וליווי נשים לחיים מיושרים.
+            נומרולוגית, מעבירת סדנאות ומעגלי נשים —
             <br />
-            <span className="text-gold">עכשיו אני כאן בשבילך.</span>
+            לחיבור עצמי ולחיים שמרגישים נכון.
           </motion.p>
         </div>
       </section>
