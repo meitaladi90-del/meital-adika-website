@@ -65,12 +65,9 @@ export default function HomeContactForm() {
           ) : (
             <>
               <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-brown mb-2 leading-tight">
-                  השאירי פרטים ואחזור אלייך תוך 24 שעות 🤍
+                <h2 className="text-2xl font-bold text-brown leading-tight">
+                  השאירי פרטים ואחזור אלייך
                 </h2>
-                <p className="text-brown/60 text-sm">
-                  מלאי את הפרטים ואיצור איתך קשר אישית
-                </p>
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
