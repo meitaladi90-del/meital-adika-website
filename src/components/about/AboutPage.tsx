@@ -50,13 +50,6 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-brown to-brown/90 text-cream">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-gold text-sm tracking-widest uppercase"
-          >
-            הדרך שלי
-          </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -105,9 +98,9 @@ export default function AboutPage() {
               ממלא אותי? והתשובה הייתה אחת — <GoldBold>אנשים.</GoldBold>
             </p>
             <p style={{ marginBottom: "1.5rem" }}>
-              תמיד ידעתי שיש לי יכולת להרגיש <GoldBold>אנשים</GoldBold>,
+              תמיד ידעתי שיש לי יכולת להרגיש אנשים,
               לדעת איזו עצה לתת ולגרום להם לראות את הפוטנציאל שבהם. נזכרתי
-              בכל אותם ה<GoldBold>אנשים</GoldBold> שאמרו לי: &rdquo;את זוכרת
+              בכל אותם האנשים שאמרו לי: &rdquo;את זוכרת
               שאז אמרת לי משהו? הקשבתי לך וזה שינה הכל.&ldquo; פתאום דברים
               התחילו להתחבר.
             </p>
