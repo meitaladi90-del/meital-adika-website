@@ -5,6 +5,7 @@ import ServicesTeaser from "@/components/home/ServicesTeaser";
 import TestimonialSection from "@/components/home/TestimonialSection";
 import InstagramFeed from "@/components/home/InstagramFeed";
 import CtaSection from "@/components/home/CtaSection";
+import HomeContactForm from "@/components/home/HomeContactForm";
 
 export const metadata: Metadata = {
   title: "מיטל עדיקה | נומרולוגיה והעצמת נשים",
@@ -19,6 +20,7 @@ export default function HomePage() {
       <WhoIsItFor />
       <ServicesTeaser />
       <TestimonialSection />
+      <HomeContactForm />
       <CtaSection />
       <InstagramFeed />
     </>
