@@ -81,10 +81,8 @@ export default function Hero() {
                 style={{ borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%" }}
               />
 
-              {/* Blob image container */}
-              <motion.div
-                animate={{ borderRadius: ["60% 40% 30% 70% / 60% 30% 70% 40%", "40% 60% 70% 30% / 40% 70% 30% 60%", "60% 40% 30% 70% / 60% 30% 70% 40%"] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              {/* Blob image container — static shape */}
+              <div
                 className="relative overflow-hidden"
                 style={{
                   width: "clamp(220px, 28vw, 300px)",
@@ -101,7 +99,7 @@ export default function Hero() {
                   style={{ objectPosition: "top center" }}
                   priority
                 />
-              </motion.div>
+              </div>
             </div>
           </motion.div>
 
