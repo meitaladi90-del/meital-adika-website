@@ -33,7 +33,7 @@ export default function RegistrationForm() {
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, workshop: "סדנת העומק — 4 מפגשים" }),
+        body: JSON.stringify({ ...data, workshop: "סדנת העומק - 4 מפגשים" }),
       });
 
       if (!res.ok) throw new Error("שגיאה בשליחה");
