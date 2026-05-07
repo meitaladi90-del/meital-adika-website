@@ -10,7 +10,7 @@ import HomeContactForm from "@/components/home/HomeContactForm";
 export const metadata: Metadata = {
   title: "מיטל עדיקה | נומרולוגיה והעצמת נשים",
   description:
-    "גלי את עצמך דרך מספרים. מיטל עדיקה — מאמנת נומרולוגיה ומנחת העצמת נשים. ייעוץ אישי, סדנאות ומעגלי נשים.",
+    "גלי את עצמך דרך מספרים. מיטל עדיקה - מאמנת נומרולוגיה ומנחת העצמת נשים. ייעוץ אישי, סדנאות ומעגלי נשים.",
 };
 
 export default function HomePage() {
