@@ -36,7 +36,6 @@ export default function WhoIsItFor() {
       <div className="container-max">
         <SectionTitle
           title="זה לא במקרה שהגעת לכאן"
-          subtitle="המקום הזה נבנה במיוחד עבורך - אישה שמוכנה לפגוש את עצמה לעומק ולחיות חיים שמרגישים נכונים."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
