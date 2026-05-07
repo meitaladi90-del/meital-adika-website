@@ -9,11 +9,11 @@ const strengths = [
     icon: "🔍",
     title: "דיוק ועומק",
     description:
-      "כל קריאה נומרולוגית אצלי היא מסע עמוק לתוך המספרים הייחודיים שלך. אני לא מתעצלת - אני מנתחת כל מספר, כל צומת, כל דפוס עד שמתגלה התמונה השלמה.",
+      "כל קריאה נומרולוגית אצלי היא מסע עמוק לתוך המספרים הייחודיים שלך. אני מנתחת כל מספר, כל צומת, כל דפוס עד שמתגלה התמונה השלמה.",
   },
   {
     icon: "💛",
-    title: "חום ואמפתיה",
+    title: "מרחב בטוח",
     description:
       "הרגשת שלא הבינו אותך? אצלי את בטוחה. אני יוצרת מרחב חם, ללא שיפוטיות, שבו את יכולה להיות בדיוק מי שאת - עם כל הפחדים, החלומות והספקות.",
   },
@@ -136,34 +136,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="section-padding bg-brown/5">
-        <div className="max-w-2xl mx-auto">
-          <SectionTitle tag="המסע שלי" title="צמיחה שלב אחר שלב" />
-          <div className="mt-12 relative">
-            <div className="absolute right-6 top-0 bottom-0 w-0.5 bg-gold/30" />
-            {milestones.map((m, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex gap-6 pb-8 relative"
-              >
-                <div className="flex-none w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center text-xs font-bold text-brown z-10">
-                  {m.year}
-                </div>
-                <div className="pt-3">
-                  <p className="text-brown font-medium leading-relaxed">{m.text}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Mission */}
       <section className="section-padding bg-gradient-to-br from-sage to-sage-dark text-cream text-center">
         <div className="max-w-3xl mx-auto">
@@ -172,9 +144,8 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="text-4xl block mb-6">🌿</span>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              המשימה שלי
+              הייעוד שלי
             </h2>
             <p className="text-cream/85 text-xl leading-relaxed">
               לעזור לכל אישה לגלות מחדש מי היא - לא מה שאמרו לה שהיא - ולחיות חיים
@@ -192,7 +163,7 @@ export default function AboutPage() {
         <div className="container-max">
           <SectionTitle
             tag="מה מייחד אותי"
-            title="3 הדברים שנשים אומרות עלי"
+            title="למה דווקא אני"
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14">
             {strengths.map((s, i) => (
