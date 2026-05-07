@@ -64,9 +64,7 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-cream/75 text-xl leading-relaxed"
           >
-            נומרולוגית, מעבירת סדנאות ומעגלי נשים —
-            <br />
-            לחיבור עצמי ולחיים שמרגישים נכון.
+            מהמטריקס — לחיים של הגשמה ומימוש עצמי.
           </motion.p>
         </div>
       </section>
