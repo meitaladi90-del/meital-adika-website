@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ checkoutUrl: session.url });
     }
 
-    // No Stripe configured — send confirmation directly
+    // No Stripe configured - send confirmation directly
     await Promise.all([
       sendRegistrationConfirmation({ name: data.fullName, email: data.email, workshop: data.workshop }),
       sendRegistrationNotification({ name: data.fullName, email: data.email, phone: data.phone, workshop: data.workshop, message: data.message }),
