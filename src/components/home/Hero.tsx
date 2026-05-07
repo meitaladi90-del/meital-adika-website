@@ -25,7 +25,7 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-16 py-32">
         <div className="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-16">
 
-          {/* LEFT — Text (visually left on desktop, below on mobile) */}
+          {/* LEFT - Text (visually left on desktop, below on mobile) */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -53,7 +53,7 @@ export default function Hero() {
               className="leading-[1.85] mb-10 text-cream/85 max-w-md mr-0 ml-auto md:ml-0"
               style={{ fontSize: "18px" }}
             >
-              מלווה נשים לגילוי הפוטנציאל המלא — דרך המספרים האישיים שלך,
+              מלווה נשים לגילוי הפוטנציאל המלא - דרך המספרים האישיים שלך,
               לחיים הרמוניים, מלאי משמעות, שפע ואהבה עצמית
             </p>
 
@@ -67,7 +67,7 @@ export default function Hero() {
             </button>
           </motion.div>
 
-          {/* RIGHT — Photo in organic blob */}
+          {/* RIGHT - Photo in organic blob */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -81,7 +81,7 @@ export default function Hero() {
                 style={{ borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%" }}
               />
 
-              {/* Blob image container — static shape */}
+              {/* Blob image container - static shape */}
               <div
                 className="relative overflow-hidden"
                 style={{
