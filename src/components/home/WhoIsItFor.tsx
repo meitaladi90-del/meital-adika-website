@@ -37,7 +37,7 @@ export default function WhoIsItFor() {
         <SectionTitle
           tag="מי זה בשבילך?"
           title="את לא לבד במסע הזה"
-          subtitle="המקום הזה נבנה במיוחד עבורך — אישה שמוכנה לפגוש את עצמה לעומק ולחיות חיים שמרגישים נכונים."
+          subtitle="המקום הזה נבנה במיוחד עבורך - אישה שמוכנה לפגוש את עצמה לעומק ולחיות חיים שמרגישים נכונים."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-14">
