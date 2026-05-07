@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "תשלום הצליח — מיטל עדיקה",
+  title: "תשלום הצליח - מיטל עדיקה",
   robots: { index: false },
 };
 
