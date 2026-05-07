@@ -45,7 +45,7 @@ export async function sendRegistrationConfirmation(data: {
           שמחה לאשר את הרשמתך ל<strong>${data.workshop}</strong>.
         </p>
         <p style="color: #5a3e28; font-size: 16px; line-height: 1.8;">
-          אשלח לך את כל הפרטים הנוספים בקרוב. בינתיים, אם יש לך שאלות — אני כאן בשבילך!
+          אשלח לך את כל הפרטים הנוספים בקרוב. בינתיים, אם יש לך שאלות - אני כאן בשבילך!
         </p>
         <div style="text-align: center; margin-top: 32px;">
           <a href="https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}"
