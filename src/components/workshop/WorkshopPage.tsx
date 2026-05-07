@@ -10,7 +10,7 @@ const sessions = [
     title: "היכרות עם עצמך דרך המספרים",
     subtitle: "מפגש ראשון",
     description:
-      "פגישה מלאת גילויים שבה נפענח את מפת הנומרולוגיה שלך. נכיר את מספר הנפש, הביטוי והמסלול — ונבין מה הם חושפים על ייעודך הייחודי.",
+      "פגישה מלאת גילויים שבה נפענח את מפת הנומרולוגיה שלך. נכיר את מספר הנפש, הביטוי והמסלול - ונבין מה הם חושפים על ייעודך הייחודי.",
     icon: "🔢",
     color: "bg-brown text-cream",
   },
@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: "האם המפגשים מקוונים או פיזיים?",
-    a: "ניתן לבחור — פגישה פיזית (אזור המרכז) או זום. שתי האפשרויות מלאות בנוכחות ועומק.",
+    a: "ניתן לבחור - פגישה פיזית (אזור המרכז) או זום. שתי האפשרויות מלאות בנוכחות ועומק.",
   },
   {
     q: "מה קורה אם הפסדתי מפגש?",
@@ -84,7 +84,7 @@ export default function WorkshopPageContent() {
             transition={{ delay: 0.15 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-            סדנת העומק —
+            סדנת העומק -
             <br />
             <span className="text-gold">מסע של 4 מפגשים</span>
           </motion.h1>
@@ -120,7 +120,7 @@ export default function WorkshopPageContent() {
           <SectionTitle
             tag="המסע"
             title="4 מפגשים שישנו את חייך"
-            subtitle="כל מפגש בנוי על הקודם — ויחד הם יוצרים תמורה עמוקה ואמיתית."
+            subtitle="כל מפגש בנוי על הקודם - ויחד הם יוצרים תמורה עמוקה ואמיתית."
           />
 
           <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
