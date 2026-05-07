@@ -27,7 +27,7 @@ export default function TestimonialSection() {
 
             <p className="text-cream text-xl md:text-2xl leading-relaxed font-light">
               מיטל שינתה לי את החיים. אחרי פגישה אחת איתה הבנתי למה כל הדרך שעברתי הכינה אותי לרגע הזה.
-              ה-ייעוץ הנומרולוגי היה מדויק בצורה שלא יכולתי לדמיין — כאילו היא קוראת את הנשמה שלי.
+              ה-ייעוץ הנומרולוגי היה מדויק בצורה שלא יכולתי לדמיין - כאילו היא קוראת את הנשמה שלי.
             </p>
 
             <div className="mt-8 flex items-center gap-4">
