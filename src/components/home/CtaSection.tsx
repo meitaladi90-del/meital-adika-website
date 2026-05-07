@@ -24,7 +24,7 @@ export default function CtaSection() {
             בצעד אחד קטן
           </h2>
           <p className="text-cream/80 text-lg md:text-xl max-w-xl mx-auto mb-10 leading-relaxed">
-            שיחת היכרות חינמית של 20 דקות — בואי נראה יחד איך אני יכולה לתמוך בך בדרך שלך.
+            שיחת היכרות חינמית של 20 דקות - בואי נראה יחד איך אני יכולה לתמוך בך בדרך שלך.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
