@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -16,21 +16,11 @@ const navLinks = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-cream/95 backdrop-blur-sm shadow-sm border-b border-gold/20"
-          : "bg-transparent"
-      }`}
+      className="fixed top-0 inset-x-0 z-50"
+      style={{ backgroundColor: "#f0ebe3", boxShadow: "0 1px 6px rgba(90,62,40,0.08)" }}
     >
       <nav className="max-w-6xl mx-auto px-4 md:px-8 lg:px-16 h-16 md:h-20 flex items-center justify-between">
         {/* Logo */}
@@ -83,7 +73,8 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-cream/98 backdrop-blur-sm border-b border-gold/20"
+            className="md:hidden overflow-hidden border-b border-gold/20"
+            style={{ backgroundColor: "#f0ebe3" }}
           >
             <ul className="px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
