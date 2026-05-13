@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { calculate, type UserProfile } from "@/lib/numerology";
+
+const STORAGE_KEY = "numerology_profile";
 
 const navLinks = [
   { href: "/", label: "בית" },
@@ -16,6 +19,20 @@ const navLinks = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [personalDay, setPersonalDay] = useState<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const profile: UserProfile = JSON.parse(saved);
+        const nums = calculate(profile);
+        setPersonalDay(nums.personalDay);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
 
   return (
     <header
@@ -46,6 +63,22 @@ export default function Header() {
             </li>
           ))}
         </ul>
+
+        {/* Daily energy badge */}
+        {personalDay !== null && (
+          <Link
+            href="/dashboard"
+            className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+            style={{
+              backgroundColor: "#c9a97a20",
+              color: "#5a3e28",
+              border: "1px solid #c9a97a50",
+            }}
+          >
+            <span>✨</span>
+            <span>תדר יומי · {personalDay}</span>
+          </Link>
+        )}
 
         {/* CTA */}
         <Link
@@ -88,6 +121,23 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
+              {personalDay !== null && (
+                <li>
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-colors"
+                    style={{
+                      backgroundColor: "#c9a97a15",
+                      color: "#5a3e28",
+                      border: "1px solid #c9a97a40",
+                    }}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span>✨</span>
+                    <span>תדר יומי · {personalDay}</span>
+                  </Link>
+                </li>
+              )}
               <li className="mt-2">
                 <Link
                   href="/contact"
