@@ -83,6 +83,14 @@ interface DashboardProps {
 
 function Dashboard({ profile, onEdit }: DashboardProps) {
   const [adminExpanded, setAdminExpanded] = useState(false);
+  const [isFirstVisit] = useState<boolean>(() => {
+    const flag = localStorage.getItem("numerology_first_visit");
+    if (flag === "true") {
+      localStorage.removeItem("numerology_first_visit");
+      return true;
+    }
+    return false;
+  });
   const nums = calculate(profile);
   const g = profile.gender as Gender;
 
@@ -119,12 +127,14 @@ function Dashboard({ profile, onEdit }: DashboardProps) {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <h1
-            className="text-3xl md:text-4xl font-bold mb-2"
-            style={{ color: "#5a3e28" }}
-          >
-            האזור האישי שלך ✨
-          </h1>
+          {!isFirstVisit && (
+            <h1
+              className="text-3xl md:text-4xl font-bold mb-2"
+              style={{ color: "#5a3e28" }}
+            >
+              האזור האישי שלך ✨
+            </h1>
+          )}
           <p className="text-base mb-1" style={{ color: "#5a3e28", opacity: 0.7 }}>
             {greeting}
           </p>
