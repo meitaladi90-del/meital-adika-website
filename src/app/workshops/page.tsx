@@ -18,6 +18,7 @@ interface Workshop {
   takeaways: string[];
   ctaLabel: string;
   waMessage: string;
+  waScheduleMessage: string;
   imageRight: boolean;
 }
 
@@ -41,6 +42,7 @@ const workshops: Workshop[] = [
     ],
     ctaLabel: "להזמנת הסדנה ←",
     waMessage: "שלום מיטל! אני מעוניינת לשמוע על סדנת לוח חזון 🎨",
+    waScheduleMessage: "שלום מיטל! אני מעוניינת לתאם סדנת לוח חזון 🎨",
     imageRight: true,
   },
   {
@@ -62,6 +64,7 @@ const workshops: Workshop[] = [
     ],
     ctaLabel: "להזמנת הסדנה ←",
     waMessage: "שלום מיטל! אני מעוניינת לשמוע על סדנת נומרולוגיה 🔢",
+    waScheduleMessage: "שלום מיטל! אני מעוניינת לתאם סדנת נומרולוגיה 🔢",
     imageRight: false,
   },
   {
@@ -83,6 +86,7 @@ const workshops: Workshop[] = [
     ],
     ctaLabel: "להזמנת הסדנה ←",
     waMessage: "שלום מיטל! אני מעוניינת לשמוע על סדנת חיבור לאינטואיציה 🧭",
+    waScheduleMessage: "שלום מיטל! אני מעוניינת לתאם סדנת חיבור לאינטואיציה 🧭",
     imageRight: true,
   },
   {
@@ -104,6 +108,7 @@ const workshops: Workshop[] = [
     ],
     ctaLabel: "להצטרפות למעגל ←",
     waMessage: "שלום מיטל! אני מעוניינת לשמוע על מעגל הנשים 🌸",
+    waScheduleMessage: "שלום מיטל! אני מעוניינת לתאם מעגל נשים 🌸",
     imageRight: false,
   },
 ];
@@ -301,15 +306,26 @@ export default function WorkshopsPage() {
                     </div>
                   </div>
 
-                  <a
-                    href={`${WA_BASE}${encodeURIComponent(ws.waMessage)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-                    style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                  >
-                    {ws.ctaLabel}
-                  </a>
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={`${WA_BASE}${encodeURIComponent(ws.waMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                      style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
+                    >
+                      {ws.ctaLabel}
+                    </a>
+                    <a
+                      href={`${WA_BASE}${encodeURIComponent(ws.waScheduleMessage)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                      style={{ backgroundColor: "#6b7c5e", color: "#fff" }}
+                    >
+                      לתיאום סדנה ←
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
