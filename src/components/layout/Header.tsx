@@ -12,7 +12,7 @@ const navLinks = [
   { href: "/", label: "בית" },
   { href: "/about", label: "הדרך שלי" },
   { href: "/services", label: "שירותים" },
-  { href: "/workshop", label: "סדנת העומק" },
+  { href: "/workshops", label: "סדנאות" },
   { href: "/testimonials", label: "המלצות" },
   { href: "/contact", label: "צרי קשר" },
 ];
