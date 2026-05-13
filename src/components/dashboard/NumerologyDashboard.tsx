@@ -6,14 +6,10 @@ import {
   type UserProfile,
   type Gender,
   calculate,
-  calculateDetailed,
   yearContent,
   monthContent,
   dayContent,
   dayMessages,
-  digitMeaning,
-  getDigits,
-  getCyclePhase,
   getSynthesis,
 } from "@/lib/numerology";
 import UserSetup from "./UserSetup";
@@ -79,47 +75,6 @@ function InfoRow({
   );
 }
 
-function DigitBreakdown({ raw, final, label }: { raw: number; final: number; label: string }) {
-  const digits = getDigits(raw);
-  if (digits.length <= 1) return null;
-
-  return (
-    <div className="mb-4">
-      <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "#6b7c5e", opacity: 0.8 }}>
-        {label}
-      </p>
-      <div className="flex items-center gap-1 flex-wrap">
-        {digits.map((d, i) => (
-          <span key={i} className="flex items-center gap-1">
-            <span
-              className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold"
-              style={{ backgroundColor: "#f5f0e8", color: "#5a3e28", border: "1px solid #c9a97a50" }}
-            >
-              {d}
-            </span>
-            {i < digits.length - 1 && (
-              <span style={{ color: "#c9a97a", fontSize: "10px" }}>+</span>
-            )}
-          </span>
-        ))}
-        <span style={{ color: "#c9a97a", fontSize: "10px", margin: "0 2px" }}>=</span>
-        <span
-          className="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
-          style={{
-            background: "linear-gradient(135deg, #c9a97a, #e8d5b0)",
-            color: "#5a3e28",
-            boxShadow: "0 2px 8px rgba(201,169,122,0.3)",
-          }}
-        >
-          {final}
-        </span>
-      </div>
-      <p className="text-xs mt-2" style={{ color: "#6b7c5e" }}>
-        {digitMeaning[final].essence}
-      </p>
-    </div>
-  );
-}
 
 interface DashboardProps {
   profile: UserProfile;
@@ -127,17 +82,14 @@ interface DashboardProps {
 }
 
 function Dashboard({ profile, onEdit }: DashboardProps) {
-  const [expanded, setExpanded] = useState(false);
   const [adminExpanded, setAdminExpanded] = useState(false);
   const nums = calculate(profile);
-  const detailed = calculateDetailed(profile);
   const g = profile.gender as Gender;
 
   const year = yearContent[nums.personalYear];
   const month = monthContent[nums.personalMonth];
   const day = dayContent[nums.personalDay];
   const msgs = dayMessages[nums.personalDay];
-  const cycle = getCyclePhase(nums.personalYear, g);
   const synthesis = getSynthesis(nums.personalYear, nums.personalMonth, nums.personalDay, g, profile.name);
 
   const greeting =
@@ -265,7 +217,7 @@ function Dashboard({ profile, onEdit }: DashboardProps) {
                 className="text-sm leading-relaxed text-right"
                 style={{ color: "#5a3e28", lineHeight: 1.8 }}
               >
-                {yearContent[nums.personalMonth].brings}
+                {month.brings}
               </p>
             </div>
           </motion.div>
@@ -334,161 +286,53 @@ function Dashboard({ profile, onEdit }: DashboardProps) {
           </motion.div>
         </div>
 
-        {/* Deep Analysis Expandable */}
+        {/* Daily energy synthesis — always visible */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.42, duration: 0.55 }}
+          className="mt-5 rounded-2xl p-6"
+          style={{ backgroundColor: "#fff", boxShadow: "0 4px 24px rgba(90,62,40,0.08)" }}
         >
-          <button
-            onClick={() => setExpanded((v) => !v)}
-            className="w-full rounded-2xl p-5 flex items-center justify-between transition-all duration-300"
-            style={{
-              backgroundColor: "#fff",
-              boxShadow: "0 4px 24px rgba(90,62,40,0.08)",
-              color: "#5a3e28",
-            }}
+          <p
+            className="text-xs font-semibold uppercase tracking-widest mb-4"
+            style={{ color: "#c9a97a" }}
           >
-            <span className="text-base font-bold" style={{ color: "#5a3e28" }}>
-              הניתוח המלא שלך ✨
-            </span>
-            <span
-              className="text-lg transition-transform duration-300"
-              style={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", color: "#c9a97a" }}
-            >
-              ▾
-            </span>
-          </button>
+            תדר האנרגיה שלך היום
+          </p>
 
-          <AnimatePresence>
-            {expanded && (
-              <motion.div
-                key="analysis"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.4 }}
-                style={{ overflow: "hidden" }}
+          <p
+            className="text-sm leading-relaxed mb-5"
+            style={{ color: "#5a3e28", lineHeight: 1.9 }}
+          >
+            {synthesis}
+          </p>
+
+          <div className="space-y-3">
+            <div className="rounded-xl p-4" style={{ backgroundColor: "#f5f0e8" }}>
+              <p
+                className="text-sm font-medium leading-relaxed"
+                style={{ color: "#5a3e28", lineHeight: 1.75 }}
               >
-                <div
-                  className="rounded-2xl p-6 mt-2 space-y-6"
-                  style={{
-                    backgroundColor: "#fff",
-                    boxShadow: "0 4px 24px rgba(90,62,40,0.08)",
-                  }}
-                  dir="rtl"
-                >
-                  {/* Digit Breakdown */}
-                  <div>
-                    <h3 className="text-base font-bold mb-4" style={{ color: "#5a3e28" }}>
-                      פירוק הספרות
-                    </h3>
-                    <div className="space-y-4">
-                      <DigitBreakdown
-                        raw={detailed.rawYear}
-                        final={detailed.personalYear}
-                        label="שנה אישית - חישוב"
-                      />
-                      <DigitBreakdown
-                        raw={detailed.rawMonth}
-                        final={detailed.personalMonth}
-                        label="חודש אישי - חישוב"
-                      />
-                      <DigitBreakdown
-                        raw={detailed.rawDay}
-                        final={detailed.personalDay}
-                        label="יום אישי - חישוב"
-                      />
-                    </div>
-                  </div>
+                {msgs.keyMessage[g]}
+              </p>
+            </div>
 
-                  <div style={{ height: 1, backgroundColor: "#f0ebe3" }} />
-
-                  {/* Synthesis */}
-                  <div>
-                    <h3 className="text-base font-bold mb-3" style={{ color: "#5a3e28" }}>
-                      הסינתזה האנרגטית
-                    </h3>
-                    <div
-                      className="rounded-xl p-4"
-                      style={{ backgroundColor: "#f5f0e8" }}
-                    >
-                      <p className="text-sm leading-relaxed" style={{ color: "#5a3e28", lineHeight: 1.8 }}>
-                        {synthesis}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div style={{ height: 1, backgroundColor: "#f0ebe3" }} />
-
-                  {/* What the numbers say today */}
-                  <div>
-                    <h3 className="text-base font-bold mb-4" style={{ color: "#5a3e28" }}>
-                      מה המספרים אומרים לך היום
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="rounded-xl p-4" style={{ backgroundColor: "#f5f0e8" }}>
-                        <span className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#c9a97a" }}>
-                          המסר המרכזי
-                        </span>
-                        <p className="text-sm leading-relaxed font-medium" style={{ color: "#5a3e28", lineHeight: 1.7 }}>
-                          {msgs.keyMessage[g]}
-                        </p>
-                      </div>
-                      <div className="rounded-xl p-4" style={{ backgroundColor: "#f0f4f0" }}>
-                        <span className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#6b7c5e" }}>
-                          מה נתמך אנרגטית היום
-                        </span>
-                        <p className="text-sm leading-relaxed" style={{ color: "#5a3e28", lineHeight: 1.7 }}>
-                          {msgs.energySupport}
-                        </p>
-                      </div>
-                      <div className="rounded-xl p-4" style={{ backgroundColor: "#fdf5f0" }}>
-                        <span className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#c9a97a", opacity: 0.8 }}>
-                          שימי לב
-                        </span>
-                        <p className="text-sm leading-relaxed" style={{ color: "#5a3e28", lineHeight: 1.7 }}>
-                          {msgs.beAware[g]}
-                        </p>
-                      </div>
-                      <div
-                        className="rounded-xl p-4"
-                        style={{ background: "linear-gradient(135deg, #c9a97a15, #e8d5b010)", border: "1px solid #c9a97a30" }}
-                      >
-                        <span className="text-xs font-semibold uppercase tracking-wider block mb-2" style={{ color: "#c9a97a" }}>
-                          המשפט האינטואיטיבי של היום
-                        </span>
-                        <p className="text-sm leading-relaxed italic font-medium" style={{ color: "#5a3e28", lineHeight: 1.8 }}>
-                          {msgs.intuition[g]}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ height: 1, backgroundColor: "#f0ebe3" }} />
-
-                  {/* Cycle Awareness */}
-                  <div>
-                    <h3 className="text-base font-bold mb-3" style={{ color: "#5a3e28" }}>
-                      מודעות מחזורית
-                    </h3>
-                    <div
-                      className="rounded-xl p-4"
-                      style={{ backgroundColor: "#f5f0e8" }}
-                    >
-                      <p className="text-xs font-semibold mb-2" style={{ color: "#c9a97a" }}>
-                        {cycle.phase}
-                      </p>
-                      <p className="text-sm leading-relaxed" style={{ color: "#5a3e28", lineHeight: 1.8 }}>
-                        {cycle.description[g]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            <div
+              className="rounded-xl p-4"
+              style={{
+                background: "linear-gradient(135deg, #c9a97a12, #e8d5b008)",
+                border: "1px solid #c9a97a25",
+              }}
+            >
+              <p
+                className="text-sm italic leading-relaxed"
+                style={{ color: "#5a3e28", lineHeight: 1.75 }}
+              >
+                {msgs.intuition[g]}
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Workshop Admin */}
