@@ -15,6 +15,10 @@ interface Workshop {
   isCancelled: boolean;
 }
 
+const WA_PURIFICATION =
+  "https://wa.me/972542268860?text=" +
+  encodeURIComponent("שלום מיטל! אני מעוניינת לתאם טיהור בית 🏡");
+
 const personalServices = [
   {
     icon: "🔢",
@@ -22,13 +26,17 @@ const personalServices = [
     subtitle: "פתיחת מפה אישית מדויקת",
     description:
       "סשן אישי של שעה עד שעה וחצי בו נפתח יחד את המפה המדויקת שלך לפי תאריך הלידה. נבין את החסמים והאתגרים, הפוטנציאל והייעוד שלך - ותצאי עם כלים לדרך כדי ליצור חיים הרמוניים.",
+    ctaLabel: "לתיאום ייעוץ אישי ←",
+    ctaHref: null,
   },
   {
     icon: "🏡",
     title: "טיהור בית ומרחב",
     subtitle: "ניקוי אנרגטי לחלל שלך",
     description:
-      "טיהור אנרגטי מקיף לכל החלל. במידת הצורך - הוצאת חפצים שהאנרגיה שלהם לא מתאימה למרחב. בסיום תקבלי חבילת טיהור הכוללת מרווה וקריסטלים המתאימים לחלל שלך.",
+      "טיהור אנרגטי מקיף לכל החלל. במידת הצורך - הוצאת חפצים שהאנרגיה שלהם לא מתאימה למרחב. בסיום תקבלי חבילת טיהור הכוללת מרווה לטיהור באופן עצמאי וקריסטלים המתאימים לחלל שלך.",
+    ctaLabel: "לתיאום טיהור לבית ←",
+    ctaHref: WA_PURIFICATION,
   },
   {
     icon: "🎨",
@@ -36,6 +44,8 @@ const personalServices = [
     subtitle: "זימון המציאות הנכונה עבורך",
     description:
       "מפגש פנים מול פנים של שעה וחצי. ביחד ניצור לוח חזון מותאם אישית למטרות ולרצונות שלך לשנה הזו, נעשה טיהור אנרגטי, כתיבת המציאות הרצויה עבורך - וכלים מעשיים לממש אותה.",
+    ctaLabel: "לתיאום סשן לוח חזון ←",
+    ctaHref: null,
   },
 ];
 
@@ -109,26 +119,26 @@ export default function ServicesTeaser() {
             שירותים
           </p>
           <h2
-            className="text-3xl md:text-4xl font-bold mb-3"
+            className="text-3xl md:text-4xl font-bold"
             style={{ color: "#5a3e28" }}
           >
             איך אני יכולה לעזור לך?
           </h2>
-          <p className="text-base" style={{ color: "#5a3e28", opacity: 0.65 }}>
-            בחרי את מה שמדבר אלייך
-          </p>
         </div>
 
-        {/* ─── Category A: ליווי אישי 1:1 ─── */}
+        {/* ─── Category A: מפגש אישי ─── */}
         <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <span
-              className="text-xs font-semibold tracking-widest px-3 py-1 rounded-full whitespace-nowrap"
-              style={{ backgroundColor: "#c9a97a25", color: "#c9a97a" }}
+          <div className="text-center mb-10">
+            <h3
+              className="text-xl md:text-2xl font-bold"
+              style={{ color: "#5a3e28", letterSpacing: "0.01em" }}
             >
-              ליווי אישי 1:1
-            </span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "#c9a97a30" }} />
+              מפגש אישי — רק את ואני
+            </h3>
+            <div
+              className="mx-auto mt-3"
+              style={{ width: "48px", height: "2px", backgroundColor: "#c9a97a", borderRadius: "1px" }}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -164,13 +174,25 @@ export default function ServicesTeaser() {
                 >
                   {service.description}
                 </p>
-                <button
-                  onClick={scrollToContact}
-                  className="w-full py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-                  style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                >
-                  לתיאום ייעוץ אישי ←
-                </button>
+                {service.ctaHref ? (
+                  <a
+                    href={service.ctaHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 block text-center"
+                    style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
+                  >
+                    {service.ctaLabel}
+                  </a>
+                ) : (
+                  <button
+                    onClick={scrollToContact}
+                    className="w-full py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+                    style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
+                  >
+                    {service.ctaLabel}
+                  </button>
+                )}
               </motion.div>
             ))}
           </div>
