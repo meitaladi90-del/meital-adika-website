@@ -306,21 +306,12 @@ export default function WorkshopsPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href={`${WA_BASE}${encodeURIComponent(ws.waMessage)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-                      style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                    >
-                      {ws.ctaLabel}
-                    </a>
+                  <div className="text-center mt-4">
                     <a
                       href={`${WA_BASE}${encodeURIComponent(ws.waScheduleMessage)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                      className="inline-flex items-center px-12 py-4 rounded-full font-bold text-base transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                       style={{ backgroundColor: "#6b7c5e", color: "#fff" }}
                     >
                       לתיאום סדנה ←
