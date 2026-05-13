@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 interface Workshop {
@@ -55,24 +56,28 @@ const groupWorkshops = [
     title: "סדנת לוח חזון",
     description:
       "ביחד ניצור לוח חזון ויזואלי ומרגש, נעשה טיהור אנרגטי, נכתוב את המציאות הרצויה - וכל משתתפת תצא עם לוח אישי שמזכיר לה כל יום לאן היא הולכת. חוויה יוצרת, עוצמתית ובלתי נשכחת לקבוצה.",
+    anchor: "vision-board",
   },
   {
     icon: "🔢",
     title: "סדנת נומרולוגיה",
     description:
       "כל משתתפת תקבל הצצה אישית ומרתקת למפת המספרים שלה - נבין את האנרגיה, החוזקות והייעוד של כל אחת. מדויק, מפתיע ומרגש. מושלם כשרוצים משהו שיישאר.",
+    anchor: "numerology",
   },
   {
     icon: "🧭",
     title: "סדנת חיבור לאינטואיציה",
     description:
       "כלים פרקטיים ועמוקים לפיתוח הקול הפנימי. נלמד להבחין בין הפחד לבין האינטואיציה, לצאת מאזורי נוחות ולסמוך על תחושות הבטן. חוויה שפותחת משהו שלא ידעת שהיה שם.",
+    anchor: "intuition",
   },
   {
     icon: "🌸",
     title: "מעגל נשים",
     description:
       "מרחב בטוח, מחבק ומרפא לנשים. מקום לעצור, לנשום, לשתף ולהתחבר לאנרגיה נשית משותפת. יוצאים עם תחושת מלאות, כוחות מחודשים ותובנות לדרך.",
+    anchor: "womens-circle",
   },
 ];
 
@@ -130,7 +135,7 @@ export default function ServicesTeaser() {
         <div className="mb-16">
           <div className="text-center mb-10">
             <h3
-              className="text-2xl md:text-3xl font-bold"
+              className="text-3xl md:text-4xl font-bold"
               style={{ color: "#5a3e28", letterSpacing: "0.01em" }}
             >
               מפגש אישי - רק את ואני
@@ -248,6 +253,13 @@ export default function ServicesTeaser() {
                 >
                   לפרטים ותיאום בוואטסאפ ←
                 </a>
+                <Link
+                  href={`/workshops#${ws.anchor}`}
+                  className="block text-center text-sm font-medium mt-2 transition-colors duration-200 hover:opacity-100"
+                  style={{ color: "#c9a97a", opacity: 0.8 }}
+                >
+                  לפרטים נוספים ←
+                </Link>
               </motion.div>
             ))}
           </div>
