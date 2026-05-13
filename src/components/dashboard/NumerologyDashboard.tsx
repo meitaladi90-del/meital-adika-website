@@ -17,6 +17,7 @@ import {
   getSynthesis,
 } from "@/lib/numerology";
 import UserSetup from "./UserSetup";
+import WorkshopAdmin from "./WorkshopAdmin";
 
 const STORAGE_KEY = "numerology_profile";
 
@@ -127,6 +128,7 @@ interface DashboardProps {
 
 function Dashboard({ profile, onEdit }: DashboardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [adminExpanded, setAdminExpanded] = useState(false);
   const nums = calculate(profile);
   const detailed = calculateDetailed(profile);
   const g = profile.gender as Gender;
@@ -483,6 +485,61 @@ function Dashboard({ profile, onEdit }: DashboardProps) {
                       </p>
                     </div>
                   </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Workshop Admin */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.55 }}
+          className="mt-4"
+        >
+          <button
+            onClick={() => setAdminExpanded((v) => !v)}
+            className="w-full rounded-2xl p-5 flex items-center justify-between transition-all duration-300"
+            style={{
+              backgroundColor: "#fff",
+              boxShadow: "0 4px 24px rgba(90,62,40,0.08)",
+              color: "#5a3e28",
+            }}
+          >
+            <span className="text-base font-bold" style={{ color: "#5a3e28" }}>
+              ניהול סדנאות 🛠
+            </span>
+            <span
+              className="text-lg transition-transform duration-300"
+              style={{
+                transform: adminExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                display: "inline-block",
+                color: "#c9a97a",
+              }}
+            >
+              ▾
+            </span>
+          </button>
+
+          <AnimatePresence>
+            {adminExpanded && (
+              <motion.div
+                key="admin"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4 }}
+                style={{ overflow: "hidden" }}
+              >
+                <div
+                  className="rounded-2xl p-6 mt-2"
+                  style={{
+                    backgroundColor: "#fff",
+                    boxShadow: "0 4px 24px rgba(90,62,40,0.08)",
+                  }}
+                >
+                  <WorkshopAdmin />
                 </div>
               </motion.div>
             )}
