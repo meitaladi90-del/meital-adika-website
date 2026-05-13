@@ -135,7 +135,7 @@ export default function ServicesTeaser() {
         <div className="mb-16">
           <div className="text-center mb-10">
             <h3
-              className="text-3xl md:text-4xl font-bold"
+              className="text-4xl md:text-5xl font-bold"
               style={{ color: "#5a3e28", letterSpacing: "0.01em" }}
             >
               מפגש אישי - רק את ואני
@@ -154,7 +154,7 @@ export default function ServicesTeaser() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="rounded-2xl p-7 flex flex-col"
+                className="rounded-2xl p-7 flex flex-col text-center"
                 style={{
                   backgroundColor: "#f5f0e8",
                   boxShadow: "0 2px 16px rgba(90,62,40,0.06)",
@@ -207,7 +207,7 @@ export default function ServicesTeaser() {
         <div className="mb-16">
           <div className="text-center mb-8">
             <h3
-              className="text-2xl font-bold mb-2"
+              className="text-3xl md:text-4xl font-bold mb-2"
               style={{ color: "#5a3e28" }}
             >
               מחפשת חוויה קבוצתית? 🌸
@@ -244,19 +244,10 @@ export default function ServicesTeaser() {
                 >
                   {ws.description}
                 </p>
-                <a
-                  href={WA_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-center py-2.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-                  style={{ backgroundColor: "#6b7c5e", color: "#fff" }}
-                >
-                  לפרטים ותיאום בוואטסאפ ←
-                </a>
                 <Link
                   href={`/workshops#${ws.anchor}`}
-                  className="block text-center text-sm font-medium mt-2 transition-colors duration-200 hover:opacity-100"
-                  style={{ color: "#c9a97a", opacity: 0.8 }}
+                  className="block text-center py-2.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+                  style={{ backgroundColor: "#6b7c5e", color: "#fff" }}
                 >
                   לפרטים נוספים ←
                 </Link>
