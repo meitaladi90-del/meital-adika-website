@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+
 const STORAGE_KEY = "numerology_profile";
 
 const navLinks = [
@@ -15,17 +16,34 @@ const navLinks = [
   { href: "/contact", label: "צרי קשר" },
 ];
 
+interface AuthUser {
+  name: string;
+  firstName: string;
+}
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authLoaded, setAuthLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      setIsConnected(!!localStorage.getItem(STORAGE_KEY));
-    } catch {
-      // ignore
-    }
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((user) => {
+        if (user?.name) {
+          setAuthUser({ name: user.name, firstName: user.name.split(" ")[0] });
+        }
+      })
+      .catch(() => {})
+      .finally(() => setAuthLoaded(true));
   }, []);
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    localStorage.removeItem(STORAGE_KEY);
+    setAuthUser(null);
+    setIsOpen(false);
+  }
 
   return (
     <header
@@ -57,20 +75,36 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Daily energy badge */}
-        {isConnected && (
-          <Link
-            href="/dashboard"
-            className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
-            style={{
-              backgroundColor: "#c9a97a20",
-              color: "#5a3e28",
-              border: "1px solid #c9a97a50",
-            }}
-          >
-            <span>✨</span>
-            <span>האנרגיה היומית שלך</span>
-          </Link>
+        {/* Auth area (desktop) */}
+        {authLoaded && (
+          <div className="hidden md:flex items-center">
+            {authUser ? (
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#5a3e28" }}>
+                <Link
+                  href="/dashboard"
+                  className="hover:opacity-80 transition-opacity"
+                >
+                  שלום {authUser.firstName} ✨
+                </Link>
+                <span className="opacity-30">|</span>
+                <button
+                  onClick={handleLogout}
+                  className="hover:opacity-70 transition-opacity text-sm"
+                  style={{ color: "#5a3e28" }}
+                >
+                  יציאה
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/#energy"
+                className="text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 hover:bg-gold/10"
+                style={{ color: "#5a3e28" }}
+              >
+                כניסה
+              </Link>
+            )}
+          </div>
         )}
 
         {/* CTA */}
@@ -114,23 +148,41 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              {isConnected && (
+
+              {authLoaded && (
                 <li>
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-semibold text-sm transition-colors"
-                    style={{
-                      backgroundColor: "#c9a97a15",
-                      color: "#5a3e28",
-                      border: "1px solid #c9a97a40",
-                    }}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span>✨</span>
-                    <span>האנרגיה היומית שלך</span>
-                  </Link>
+                  {authUser ? (
+                    <div className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "#c9a97a15", border: "1px solid #c9a97a30" }}>
+                      <Link
+                        href="/dashboard"
+                        className="text-sm font-semibold"
+                        style={{ color: "#5a3e28" }}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        שלום {authUser.firstName} ✨
+                      </Link>
+                      <span className="opacity-30 text-sm" style={{ color: "#5a3e28" }}>|</span>
+                      <button
+                        onClick={handleLogout}
+                        className="text-sm font-medium"
+                        style={{ color: "#5a3e28", opacity: 0.65 }}
+                      >
+                        יציאה
+                      </button>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/#energy"
+                      className="block text-center px-5 py-3 rounded-xl font-semibold text-sm transition-colors"
+                      style={{ backgroundColor: "#c9a97a15", color: "#5a3e28", border: "1px solid #c9a97a30" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      כניסה לאזור האישי
+                    </Link>
+                  )}
                 </li>
               )}
+
               <li className="mt-2">
                 <Link
                   href="/contact"
