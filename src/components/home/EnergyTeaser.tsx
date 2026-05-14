@@ -279,6 +279,7 @@ export default function EnergyTeaser() {
 
   return (
     <section
+      id="energy"
       className="section-padding"
       dir="rtl"
       style={{ backgroundColor: "#5a3e28" }}
