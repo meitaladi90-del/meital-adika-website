@@ -28,3 +28,13 @@ model ContactSubmission {
   message   String
   createdAt DateTime @default(now())
 }
+
+model EnergyUser {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  birthDate String
+  password  String
+  createdAt DateTime @default(now())
+}
