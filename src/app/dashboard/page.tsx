@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NumerologyDashboard from "@/components/dashboard/NumerologyDashboard";
+import DailyEnergySection from "@/components/dashboard/DailyEnergySection";
 
 export const metadata: Metadata = {
   title: "האזור האישי שלך - מיטל עדיקה",
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <NumerologyDashboard />;
+  return (
+    <>
+      <NumerologyDashboard />
+      <DailyEnergySection />
+    </>
+  );
 }
