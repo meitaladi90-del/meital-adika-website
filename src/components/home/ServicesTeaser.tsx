@@ -1,20 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-
-interface Workshop {
-  id: string;
-  name: string;
-  date: string;
-  time: string;
-  location: string;
-  description: string;
-  maxSpots: number;
-  spotsLeft: number;
-  isCancelled: boolean;
-}
 
 const WA_PURIFICATION =
   "https://wa.me/972542268860?text=" +
@@ -81,33 +68,11 @@ const groupWorkshops = [
   },
 ];
 
-const WA_LINK =
-  "https://wa.me/972542268860?text=" +
-  encodeURIComponent("שלום מיטל! אני מעוניינת לשמוע על סדנה פרטית לקבוצה 🌸");
-
 function scrollToContact() {
   document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("he-IL", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
 export default function ServicesTeaser() {
-  const [workshops, setWorkshops] = useState<Workshop[]>([]);
-
-  useEffect(() => {
-    fetch("/api/workshops")
-      .then((r) => r.json())
-      .then(setWorkshops)
-      .catch(() => setWorkshops([]));
-  }, []);
-
   return (
     <section
       className="section-padding bg-gradient-to-b from-cream to-cream/50"
@@ -256,87 +221,6 @@ export default function ServicesTeaser() {
           </div>
         </div>
 
-        {/* ─── Category C: סדנאות פתוחות (only when data exists) ─── */}
-        {workshops.length > 0 && (
-          <div>
-            <div className="flex items-center gap-3 mb-8">
-              <span
-                className="text-xs font-semibold tracking-widest px-3 py-1 rounded-full whitespace-nowrap"
-                style={{ backgroundColor: "#6b7c5e20", color: "#6b7c5e" }}
-              >
-                סדנאות פתוחות 🌟
-              </span>
-              <div className="flex-1 h-px" style={{ backgroundColor: "#6b7c5e30" }} />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {workshops.map((ws, i) => (
-                <motion.div
-                  key={ws.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="rounded-2xl p-6 flex flex-col"
-                  style={{
-                    backgroundColor: "#fff",
-                    boxShadow: "0 4px 20px rgba(90,62,40,0.08)",
-                    border: "1px solid #c9a97a30",
-                  }}
-                >
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <h4
-                      className="text-lg font-bold"
-                      style={{ color: "#5a3e28" }}
-                    >
-                      {ws.name}
-                    </h4>
-                    {ws.spotsLeft <= 3 && (
-                      <span
-                        className="text-xs px-2 py-1 rounded-full font-semibold whitespace-nowrap"
-                        style={{ backgroundColor: "#fdf5f0", color: "#c9a97a" }}
-                      >
-                        נותרו {ws.spotsLeft}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 mb-4">
-                    <span className="text-xs" style={{ color: "#6b7c5e" }}>
-                      📅 {formatDate(ws.date)}
-                    </span>
-                    <span className="text-xs" style={{ color: "#6b7c5e" }}>
-                      ⏰ {ws.time}
-                    </span>
-                    <span className="text-xs" style={{ color: "#6b7c5e" }}>
-                      📍 {ws.location}
-                    </span>
-                  </div>
-
-                  <p
-                    className="text-sm flex-1 mb-5"
-                    style={{ color: "#5a3e28", opacity: 0.75, lineHeight: 1.85 }}
-                  >
-                    {ws.description}
-                  </p>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-xs" style={{ color: "#6b7c5e" }}>
-                      {ws.spotsLeft} מקומות פנויים מתוך {ws.maxSpots}
-                    </span>
-                    <button
-                      onClick={scrollToContact}
-                      className="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap"
-                      style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                    >
-                      להרשמה ←
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
 
       </div>
     </section>
