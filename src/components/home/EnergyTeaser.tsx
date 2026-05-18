@@ -8,7 +8,7 @@ const STORAGE_KEY = "numerology_profile";
 const PREVIEW_USED_KEY = "energy_preview_used";
 const CARD_STORAGE_KEY = "adikAura_daily";
 
-type ViewState = "loading" | "preview_form" | "preview_results" | "locked" | "login_form" | "logged_in";
+type ViewState = "loading" | "preview_form" | "preview_results" | "register_form" | "locked" | "login_form" | "logged_in";
 type CardPhase = "choosing" | "revealed";
 
 interface EnergyNums { personalYear: number; personalMonth: number; personalDay: number; }
@@ -290,7 +290,6 @@ export default function EnergyTeaser() {
   const [nums, setNums] = useState<EnergyNums | null>(null);
   const [previewName, setPreviewName] = useState("");
   const [previewBirthDate, setPreviewBirthDate] = useState("");
-  const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -385,7 +384,7 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Results + registration CTA ── */}
+          {/* ── Results: ניתוח + קלף + CTA ── */}
           {view === "preview_results" && nums && (
             <motion.div key="preview_results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
               <div className="text-center mb-8">
@@ -397,33 +396,53 @@ export default function EnergyTeaser() {
 
               <EnergyCards nums={nums} />
 
-              <div className="mt-10 text-center">
-                <AnimatePresence mode="wait">
-                  {!showRegisterForm ? (
-                    <motion.div key="cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
-                      <p className="text-base mb-5" style={{ color: "#f5f0e8", opacity: 0.82, lineHeight: 1.7 }}>
-                        רוצה לדעת באופן קבוע את האנרגיה<br />היומית שלך?
-                      </p>
-                      <button
-                        onClick={() => setShowRegisterForm(true)}
-                        className="px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-                        style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                      >
-                        כן! הירשמי בחינם ←
-                      </button>
-                    </motion.div>
-                  ) : (
-                    <motion.div key="register" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                      <p className="text-sm mb-5" style={{ color: "#c9a97a", fontStyle: "italic" }}>הירשמי בחינם לאזור האישי ✨</p>
-                      <InlineRegister
-                        previewName={previewName}
-                        previewBirthDate={previewBirthDate}
-                        onSuccess={handleRegisterSuccess}
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              <div className="my-8 flex items-center gap-4 max-w-xl mx-auto">
+                <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
+                <span style={{ color: "#c9a97a", opacity: 0.6, fontSize: "12px" }}>✦</span>
+                <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
               </div>
+              <div className="max-w-lg mx-auto mb-12">
+                <InlineCardDraw />
+              </div>
+
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }} className="text-center mt-4">
+                <p className="text-base mb-5" style={{ color: "#f5f0e8", opacity: 0.82, lineHeight: 1.7 }}>
+                  רוצה לדעת באופן קבוע את האנרגיה<br />היומית שלך?
+                </p>
+                <button
+                  onClick={() => setView("register_form")}
+                  className="px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+                  style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
+                >
+                  כן! הירשמי בחינם ←
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* ── Registration form (separate step) ── */}
+          {view === "register_form" && (
+            <motion.div key="register_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto">
+              <div className="text-center mb-8">
+                <div style={{ fontSize: "28px", marginBottom: "12px" }}>✨</div>
+                <h2 className="text-2xl font-bold mb-2" style={{ color: "#f5f0e8" }}>הירשמי לאזור האישי</h2>
+                <p className="text-sm" style={{ color: "#f5f0e8", opacity: 0.65, lineHeight: 1.7 }}>
+                  גישה לאנרגיה ולקלף מסר שלך — כל יום
+                </p>
+              </div>
+              <InlineRegister
+                previewName={previewName}
+                previewBirthDate={previewBirthDate}
+                onSuccess={handleRegisterSuccess}
+              />
+              <button
+                type="button"
+                onClick={() => setView("preview_results")}
+                className="block mx-auto mt-4 text-xs"
+                style={{ color: "#f5f0e8", opacity: 0.35, background: "none", border: "none", cursor: "pointer" }}
+              >
+                חזרה
+              </button>
             </motion.div>
           )}
 
