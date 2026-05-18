@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { calculate, yearContent, monthContent, dayContent, getSynthesis } from "@/lib/numerology";
+import { calculate, yearContent, monthContent, dayContent } from "@/lib/numerology";
 
 const STORAGE_KEY = "numerology_profile";
 const PREVIEW_USED_KEY = "energy_preview_used";
-const DECLINED_KEY = "energy_declined";
 const CARD_STORAGE_KEY = "adikAura_daily";
 
 type ViewState = "loading" | "preview_form" | "preview_results" | "locked" | "login_form" | "logged_in";
@@ -190,9 +189,8 @@ function InlineCardDraw() {
 }
 
 /* ── Energy number cards ─────────────────────────────────────────── */
-function EnergyCards({ nums, name }: { nums: EnergyNums; name: string }) {
+function EnergyCards({ nums }: { nums: EnergyNums }) {
   const { personalYear: py, personalMonth: pm, personalDay: pd } = nums;
-  const synthesis = getSynthesis(py, pm, pd, "נקבה", name);
   const cards = [
     { label: "שנה אישית", num: py, title: yearContent[py].title, body: yearContent[py].brings },
     { label: "חודש אישי", num: pm, title: monthContent[pm].title, body: monthContent[pm].brings },
@@ -200,9 +198,16 @@ function EnergyCards({ nums, name }: { nums: EnergyNums; name: string }) {
   ];
   return (
     <div className="w-full max-w-3xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {cards.map((card, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }} className="rounded-2xl p-5 text-center" style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1px solid rgba(201,169,122,0.18)" }}>
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: i * 0.1 }}
+            className="rounded-2xl p-5 text-center"
+            style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1px solid rgba(201,169,122,0.18)" }}
+          >
             <div className="text-5xl font-bold mb-1" style={{ color: "#c9a97a" }}>{card.num}</div>
             <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#c9a97a", opacity: 0.75 }}>{card.label}</div>
             <p className="text-xs font-bold mb-2 leading-snug" style={{ color: "#f5f0e8" }}>{card.title}</p>
@@ -210,23 +215,18 @@ function EnergyCards({ nums, name }: { nums: EnergyNums; name: string }) {
           </motion.div>
         ))}
       </div>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }} className="rounded-2xl p-5 mb-6 text-center" style={{ backgroundColor: "rgba(201,169,122,0.10)", border: "1px solid rgba(201,169,122,0.22)" }}>
-        <p className="text-sm" style={{ color: "#f5f0e8", lineHeight: 1.9 }}>{synthesis}</p>
-      </motion.div>
     </div>
   );
 }
 
-/* ── Registration popup ──────────────────────────────────────────── */
-interface PopupProps {
+/* ── Inline registration form ────────────────────────────────────── */
+interface InlineRegisterProps {
   previewName: string;
   previewBirthDate: string;
   onSuccess: (user: AuthUser, nums: EnergyNums) => void;
-  onDecline: () => void;
-  onClose: () => void;
 }
 
-function RegistrationPopup({ previewName, previewBirthDate, onSuccess, onDecline, onClose }: PopupProps) {
+function InlineRegister({ previewName, previewBirthDate, onSuccess }: InlineRegisterProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
@@ -237,7 +237,8 @@ function RegistrationPopup({ previewName, previewBirthDate, onSuccess, onDecline
     setError("");
     setSubmitting(true);
     try {
-      const autoPassword = crypto.randomUUID?.() ?? Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12);
+      const autoPassword =
+        (crypto.randomUUID?.() ?? Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12));
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -249,64 +250,36 @@ function RegistrationPopup({ previewName, previewBirthDate, onSuccess, onDecline
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: data.name, birthDate: data.birthDate, gender: "נקבה" }));
       localStorage.removeItem(PREVIEW_USED_KEY);
       onSuccess({ name: data.name, birthDate: data.birthDate }, n);
-    } finally { setSubmitting(false); }
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
-    <div
-      style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.72)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: "16px", padding: "24px", border: "1px solid rgba(201,169,122,0.22)", maxWidth: "400px", margin: "0 auto" }}
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.93, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ duration: 0.35 }}
-        dir="rtl"
-        style={{ backgroundColor: "#4a2e1a", borderRadius: "24px", padding: "36px 32px", maxWidth: "400px", width: "100%", border: "1px solid rgba(201,169,122,0.3)", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
-      >
-        <button onClick={onClose} style={{ position: "absolute", top: "16px", left: "16px", color: "#f5f0e8", opacity: 0.35, background: "none", border: "none", cursor: "pointer", fontSize: "18px", lineHeight: 1 }}>✕</button>
-
-        <div className="text-center mb-6">
-          <div style={{ fontSize: "28px", marginBottom: "12px" }}>✨</div>
-          <h3 style={{ color: "#f5f0e8", fontSize: "19px", fontWeight: "bold", lineHeight: 1.35, marginBottom: "8px" }}>
-            רוצה לדעת את האנרגיה שלך בכל יום?
-          </h3>
-          <p style={{ color: "#f5f0e8", opacity: 0.6, fontSize: "13px", lineHeight: 1.7 }}>
-            הירשמי בחינם — גישה לאנרגיה ולקלף מסר כל יום
-          </p>
-        </div>
-
-        {/* Pre-filled details display */}
-        <div style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "12px 16px", marginBottom: "16px", border: "1px solid rgba(201,169,122,0.18)" }}>
-          <p style={{ color: "#c9a97a", fontSize: "11px", opacity: 0.75, marginBottom: "4px" }}>הפרטים שלך</p>
-          <p style={{ color: "#f5f0e8", fontSize: "13px", fontWeight: 500 }}>{previewName}</p>
-          <p style={{ color: "#f5f0e8", fontSize: "12px", opacity: 0.6 }}>{previewBirthDate}</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <input type="email" placeholder="כתובת מייל" value={email} onChange={(e) => setEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-          <input type="tel" placeholder="טלפון" value={phone} onChange={(e) => setPhone(e.target.value)} className={INPUT_CLS} style={FIELD} />
-
-          {error && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{error}</p>}
-
-          <button
-            type="submit"
-            disabled={submitting}
-            style={{ backgroundColor: "#c9a97a", color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.65 : 1, marginTop: "4px" }}
-          >
-            {submitting ? "...נרשמת" : "הירשמי בחינם ←"}
-          </button>
-          <button
-            type="button"
-            onClick={onDecline}
-            style={{ color: "#f5f0e8", opacity: 0.35, fontSize: "12px", background: "none", border: "none", cursor: "pointer", textAlign: "center", paddingTop: "2px" }}
-          >
-            לא רוצה להירשם
-          </button>
-        </form>
-      </motion.div>
-    </div>
+      <div style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: "10px", padding: "10px 14px", marginBottom: "14px", border: "1px solid rgba(201,169,122,0.15)" }}>
+        <p style={{ color: "#c9a97a", fontSize: "10px", opacity: 0.7, marginBottom: "3px" }}>הפרטים שלך</p>
+        <p style={{ color: "#f5f0e8", fontSize: "13px", fontWeight: 500 }}>{previewName}</p>
+        <p style={{ color: "#f5f0e8", fontSize: "12px", opacity: 0.6 }}>{previewBirthDate}</p>
+      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input type="email" placeholder="כתובת מייל *" value={email} onChange={(e) => setEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+        <input type="tel" placeholder="טלפון" value={phone} onChange={(e) => setPhone(e.target.value)} className={INPUT_CLS} style={FIELD} />
+        {error && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{error}</p>}
+        <button
+          type="submit"
+          disabled={submitting}
+          style={{ backgroundColor: "#c9a97a", color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.65 : 1, marginTop: "4px" }}
+        >
+          {submitting ? "...נרשמת" : "הירשמי בחינם ←"}
+        </button>
+      </form>
+    </motion.div>
   );
 }
 
@@ -317,18 +290,13 @@ export default function EnergyTeaser() {
   const [nums, setNums] = useState<EnergyNums | null>(null);
   const [previewName, setPreviewName] = useState("");
   const [previewBirthDate, setPreviewBirthDate] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loginSubmitting, setLoginSubmitting] = useState(false);
-  const [declined, setDeclined] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(DECLINED_KEY) === "true") {
-      setDeclined(true);
-      return;
-    }
     fetch("/api/auth/me")
       .then((r) => r.json())
       .then((user) => {
@@ -347,13 +315,6 @@ export default function EnergyTeaser() {
       });
   }, []);
 
-  // Show popup 4 seconds after results appear
-  useEffect(() => {
-    if (view !== "preview_results") return;
-    const t = setTimeout(() => setShowPopup(true), 4000);
-    return () => clearTimeout(t);
-  }, [view]);
-
   function handlePreviewSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!previewName || !previewBirthDate) return;
@@ -364,17 +325,10 @@ export default function EnergyTeaser() {
     setView("preview_results");
   }
 
-  function handlePopupSuccess(user: AuthUser, n: EnergyNums) {
+  function handleRegisterSuccess(user: AuthUser, n: EnergyNums) {
     setAuthUser(user);
     setNums(n);
-    setShowPopup(false);
     setView("logged_in");
-  }
-
-  function handleDecline() {
-    localStorage.setItem(DECLINED_KEY, "true");
-    setShowPopup(false);
-    setDeclined(true);
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -395,134 +349,137 @@ export default function EnergyTeaser() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: data.name, birthDate: data.birthDate, gender: "נקבה" }));
       localStorage.removeItem(PREVIEW_USED_KEY);
       setView("logged_in");
-    } finally { setLoginSubmitting(false); }
+    } finally {
+      setLoginSubmitting(false);
+    }
   }
 
-  if (declined) return null;
-
   return (
-    <>
-      <section id="energy" className="section-padding" dir="rtl" style={{ backgroundColor: "#5a3e28" }}>
-        <div className="container-max">
-          <AnimatePresence mode="wait">
+    <section id="energy" className="section-padding" dir="rtl" style={{ backgroundColor: "#5a3e28" }}>
+      <div className="container-max">
+        <AnimatePresence mode="wait">
 
-            {view === "loading" && (
-              <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center py-16">
-                <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: "#c9a97a", borderTopColor: "transparent" }} />
-              </motion.div>
-            )}
+          {view === "loading" && (
+            <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex justify-center py-16">
+              <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: "#c9a97a", borderTopColor: "transparent" }} />
+            </motion.div>
+          )}
 
-            {/* ── Form: שם מלא + תאריך לידה ── */}
-            {view === "preview_form" && (
-              <motion.div key="preview_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#c9a97a" }}>גלי את האנרגיה שלך</p>
-                <h2 className="text-3xl md:text-5xl font-bold mb-5 leading-snug" style={{ color: "#f5f0e8" }}>
-                  מה המספרים מספרים<br />עלייך היום?
-                </h2>
-                <p className="text-base mb-8" style={{ color: "#f5f0e8", opacity: 0.72, lineHeight: 1.85 }}>
-                  הכניסי שם ותאריך לידה וגלי את האנרגיה שלך לשנה, לחודש וליום — בחינם.
-                </p>
-                <form onSubmit={handlePreviewSubmit} className="flex flex-col gap-4 text-right">
-                  <input type="text" placeholder="שם מלא" value={previewName} onChange={(e) => setPreviewName(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-                  <div>
-                    <label className="block text-xs mb-1.5 text-right" style={{ color: "#c9a97a" }}>תאריך לידה</label>
-                    <input type="date" value={previewBirthDate} onChange={(e) => setPreviewBirthDate(e.target.value)} required className={INPUT_CLS} style={{ ...FIELD, colorScheme: "dark" } as React.CSSProperties} />
-                  </div>
-                  <button type="submit" className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md mt-2" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
-                    גלי את האנרגיה שלך ✨
-                  </button>
-                </form>
-              </motion.div>
-            )}
-
-            {/* ── Results: ניתוח + בחירת קלף ── */}
-            {view === "preview_results" && nums && (
-              <motion.div key="preview_results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-                <div className="text-center mb-8">
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#c9a97a" }}>האנרגיה שלך היום</p>
-                  <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "#f5f0e8" }}>
-                    {previewName ? `שלום ${previewName.split(" ")[0]} ✨` : "האנרגיה שלך ✨"}
-                  </h2>
+          {/* ── Form ── */}
+          {view === "preview_form" && (
+            <motion.div key="preview_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
+              <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#c9a97a" }}>גלי את האנרגיה שלך</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-5 leading-snug" style={{ color: "#f5f0e8" }}>
+                רוצה לגלות את האנרגיה<br />היומית של המספרים שלך?
+              </h2>
+              <form onSubmit={handlePreviewSubmit} className="flex flex-col gap-4 text-right">
+                <input type="text" placeholder="שם מלא" value={previewName} onChange={(e) => setPreviewName(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                <div>
+                  <label className="block text-xs mb-1.5 text-right" style={{ color: "#c9a97a" }}>תאריך לידה</label>
+                  <input type="date" value={previewBirthDate} onChange={(e) => setPreviewBirthDate(e.target.value)} required className={INPUT_CLS} style={{ ...FIELD, colorScheme: "dark" } as React.CSSProperties} />
                 </div>
-                <EnergyCards nums={nums} name={previewName.split(" ")[0]} />
-                <div className="my-8 flex items-center gap-4 max-w-xl mx-auto">
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
-                  <span style={{ color: "#c9a97a", opacity: 0.6, fontSize: "12px" }}>✦</span>
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
-                </div>
-                <div className="max-w-lg mx-auto">
-                  <InlineCardDraw />
-                </div>
-              </motion.div>
-            )}
-
-            {/* ── Locked: show login ── */}
-            {view === "locked" && (
-              <motion.div key="locked" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
-                <div className="text-5xl mb-5">🔒</div>
-                <h2 className="text-2xl font-bold mb-3" style={{ color: "#f5f0e8" }}>האנרגיה היומית שלך מחכה</h2>
-                <p className="text-sm mb-8" style={{ color: "#f5f0e8", opacity: 0.72, lineHeight: 1.85 }}>
-                  כניסה לאזור האישי לגישה מלאה לאנרגיה שלך וקלף מסר — כל יום.
-                </p>
-                <button onClick={() => setView("login_form")} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
-                  כניסה לאזור האישי ←
+                <button type="submit" className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md mt-2" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
+                  גלי את האנרגיה שלך ✨
                 </button>
-              </motion.div>
-            )}
+              </form>
+            </motion.div>
+          )}
 
-            {/* ── Login form ── */}
-            {view === "login_form" && (
-              <motion.div key="login_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="max-w-sm mx-auto">
-                <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "#f5f0e8" }}>כניסה לאזור האישי</h2>
-                <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                  <input type="email" placeholder="כתובת מייל" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-                  <input type="password" placeholder="סיסמה" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-                  {loginError && <p className="text-xs text-center" style={{ color: "#fca5a5" }}>{loginError}</p>}
-                  <button type="submit" disabled={loginSubmitting} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md mt-2 disabled:opacity-60" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
-                    {loginSubmitting ? "...נכנסת" : "כניסה ←"}
-                  </button>
-                  <button type="button" onClick={() => setView("locked")} className="text-xs text-center" style={{ color: "#f5f0e8", opacity: 0.35 }}>חזרה</button>
-                </form>
-              </motion.div>
-            )}
+          {/* ── Results + registration CTA ── */}
+          {view === "preview_results" && nums && (
+            <motion.div key="preview_results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+              <div className="text-center mb-8">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#c9a97a" }}>האנרגיה שלך היום</p>
+                <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "#f5f0e8" }}>
+                  {previewName ? `שלום ${previewName.split(" ")[0]} ✨` : "האנרגיה שלך ✨"}
+                </h2>
+              </div>
 
-            {/* ── Logged in: ניתוח + קלף ── */}
-            {view === "logged_in" && authUser && nums && (
-              <motion.div key="logged_in" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-                <div className="text-center mb-8">
-                  <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#c9a97a" }}>האנרגיה היומית שלך</p>
-                  <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "#f5f0e8" }}>
-                    שלום {authUser.name.split(" ")[0]} ✨
-                  </h2>
-                </div>
-                <EnergyCards nums={nums} name={authUser.name.split(" ")[0]} />
-                <div className="my-8 flex items-center gap-4 max-w-xl mx-auto">
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
-                  <span style={{ color: "#c9a97a", opacity: 0.6, fontSize: "12px" }}>✦</span>
-                  <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
-                </div>
-                <div className="max-w-lg mx-auto">
-                  <InlineCardDraw />
-                </div>
-              </motion.div>
-            )}
+              <EnergyCards nums={nums} />
 
-          </AnimatePresence>
-        </div>
-      </section>
+              <div className="mt-10 text-center">
+                <AnimatePresence mode="wait">
+                  {!showRegisterForm ? (
+                    <motion.div key="cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+                      <p className="text-base mb-5" style={{ color: "#f5f0e8", opacity: 0.82, lineHeight: 1.7 }}>
+                        רוצה לדעת באופן קבוע את האנרגיה<br />היומית שלך?
+                      </p>
+                      <button
+                        onClick={() => setShowRegisterForm(true)}
+                        className="px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+                        style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
+                      >
+                        כן! הירשמי בחינם ←
+                      </button>
+                    </motion.div>
+                  ) : (
+                    <motion.div key="register" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+                      <p className="text-sm mb-5" style={{ color: "#c9a97a", fontStyle: "italic" }}>הירשמי בחינם לאזור האישי ✨</p>
+                      <InlineRegister
+                        previewName={previewName}
+                        previewBirthDate={previewBirthDate}
+                        onSuccess={handleRegisterSuccess}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
 
-      {/* ── Registration popup ── */}
-      <AnimatePresence>
-        {showPopup && (
-          <RegistrationPopup
-            previewName={previewName}
-            previewBirthDate={previewBirthDate}
-            onSuccess={handlePopupSuccess}
-            onDecline={handleDecline}
-            onClose={() => setShowPopup(false)}
-          />
-        )}
-      </AnimatePresence>
-    </>
+          {/* ── Locked ── */}
+          {view === "locked" && (
+            <motion.div key="locked" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
+              <div className="text-5xl mb-5">🔒</div>
+              <h2 className="text-2xl font-bold mb-3" style={{ color: "#f5f0e8" }}>האנרגיה היומית שלך מחכה</h2>
+              <p className="text-sm mb-8" style={{ color: "#f5f0e8", opacity: 0.72, lineHeight: 1.85 }}>
+                כניסה לאזור האישי לגישה מלאה לאנרגיה שלך וקלף מסר — כל יום.
+              </p>
+              <button onClick={() => setView("login_form")} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
+                כניסה לאזור האישי ←
+              </button>
+            </motion.div>
+          )}
+
+          {/* ── Login form ── */}
+          {view === "login_form" && (
+            <motion.div key="login_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="max-w-sm mx-auto">
+              <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "#f5f0e8" }}>כניסה לאזור האישי</h2>
+              <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                <input type="email" placeholder="כתובת מייל" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                <input type="password" placeholder="סיסמה" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                {loginError && <p className="text-xs text-center" style={{ color: "#fca5a5" }}>{loginError}</p>}
+                <button type="submit" disabled={loginSubmitting} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md mt-2 disabled:opacity-60" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
+                  {loginSubmitting ? "...נכנסת" : "כניסה ←"}
+                </button>
+                <button type="button" onClick={() => setView("locked")} className="text-xs text-center" style={{ color: "#f5f0e8", opacity: 0.35 }}>חזרה</button>
+              </form>
+            </motion.div>
+          )}
+
+          {/* ── Logged in: analysis + oracle cards ── */}
+          {view === "logged_in" && authUser && nums && (
+            <motion.div key="logged_in" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+              <div className="text-center mb-8">
+                <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#c9a97a" }}>האנרגיה היומית שלך</p>
+                <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "#f5f0e8" }}>
+                  שלום {authUser.name.split(" ")[0]} ✨
+                </h2>
+              </div>
+              <EnergyCards nums={nums} />
+              <div className="my-8 flex items-center gap-4 max-w-xl mx-auto">
+                <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
+                <span style={{ color: "#c9a97a", opacity: 0.6, fontSize: "12px" }}>✦</span>
+                <div className="flex-1 h-px" style={{ backgroundColor: "rgba(201,169,122,0.2)" }} />
+              </div>
+              <div className="max-w-lg mx-auto">
+                <InlineCardDraw />
+              </div>
+            </motion.div>
+          )}
+
+        </AnimatePresence>
+      </div>
+    </section>
   );
 }
