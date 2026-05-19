@@ -7,7 +7,10 @@ const nextConfig = {
       { protocol: "https", hostname: "**.cdninstagram.com" },
     ],
   },
-  serverExternalPackages: ["bcryptjs", "@prisma/client", "prisma"],
+  serverExternalPackages: ["bcryptjs", "jose", "@prisma/client"],
+  experimental: {
+    serverComponentsExternalPackages: ["bcryptjs", "jose", "@prisma/client"],
+  },
 };
 
 export default nextConfig;
