@@ -1,227 +1,47 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 
-const WA_PURIFICATION =
-  "https://wa.me/972542268860?text=" +
-  encodeURIComponent("שלום מיטל! אני מעוניינת לתאם טיהור בית 🏡");
-
-const personalServices = [
-  {
-    icon: "🔢",
-    title: "ייעוץ נומרולוגי אישי",
-    subtitle: "פתיחת מפה אישית מדויקת",
-    description:
-      "סשן אישי של שעה עד שעה וחצי בו נפתח יחד את המפה המדויקת שלך לפי תאריך הלידה. נבין את החסמים והאתגרים, הפוטנציאל והייעוד שלך - ותצאי עם כלים לדרך כדי ליצור חיים הרמוניים.",
-    ctaLabel: "לתיאום ייעוץ אישי ←",
-    ctaHref: null,
-  },
-  {
-    icon: "🏡",
-    title: "טיהור בית ומרחב",
-    subtitle: "ניקוי אנרגטי לחלל שלך",
-    description:
-      "טיהור אנרגטי מקיף לכל החלל. במידת הצורך - הוצאת חפצים שהאנרגיה שלהם לא מתאימה למרחב. בסיום תקבלי חבילת טיהור הכוללת מרווה לטיהור באופן עצמאי וקריסטלים המתאימים לחלל שלך.",
-    ctaLabel: "לתיאום טיהור לבית ←",
-    ctaHref: WA_PURIFICATION,
-  },
-  {
-    icon: "🎨",
-    title: "סשן לוח חזון אישי",
-    subtitle: "זימון המציאות הנכונה עבורך",
-    description:
-      "מפגש פנים מול פנים של שעה וחצי. ביחד ניצור לוח חזון מותאם אישית למטרות ולרצונות שלך לשנה הזו, נעשה טיהור אנרגטי, כתיבת המציאות הרצויה עבורך - וכלים מעשיים לממש אותה.",
-    ctaLabel: "לתיאום סשן לוח חזון ←",
-    ctaHref: null,
-  },
+const items = [
+  { icon: "🔢", label: "ייעוץ אישי 1:1", href: "/services/personal" },
+  { icon: "🎨", label: "סדנאות", href: "/services/workshops" },
+  { icon: "🌸", label: "מעגל נשים", href: "/services/womens-circle" },
 ];
-
-const groupWorkshops = [
-  {
-    icon: "🎨",
-    title: "סדנת לוח חזון",
-    description:
-      "ביחד ניצור לוח חזון ויזואלי ומרגש, נעשה טיהור אנרגטי, נכתוב את המציאות הרצויה - וכל משתתפת תצא עם לוח אישי שמזכיר לה כל יום לאן היא הולכת. חוויה יוצרת, עוצמתית ובלתי נשכחת לקבוצה.",
-    anchor: "vision-board",
-  },
-  {
-    icon: "🔢",
-    title: "סדנת נומרולוגיה",
-    description:
-      "כל משתתפת תקבל הצצה אישית ומרתקת למפת המספרים שלה - נבין את האנרגיה, החוזקות והייעוד של כל אחת. מדויק, מפתיע ומרגש. מושלם כשרוצים משהו שיישאר.",
-    anchor: "numerology",
-  },
-  {
-    icon: "🧭",
-    title: "סדנת חיבור לאינטואיציה",
-    description:
-      "כלים פרקטיים ועמוקים לפיתוח הקול הפנימי. נלמד להבחין בין הפחד לבין האינטואיציה, לצאת מאזורי נוחות ולסמוך על תחושות הבטן. חוויה שפותחת משהו שלא ידעת שהיה שם.",
-    anchor: "intuition",
-  },
-  {
-    icon: "🌸",
-    title: "מעגל נשים",
-    description:
-      "מרחב בטוח, מחבק ומרפא לנשים. מקום לעצור, לנשום, לשתף ולהתחבר לאנרגיה נשית משותפת. יוצאים עם תחושת מלאות, כוחות מחודשים ותובנות לדרך.",
-    anchor: "womens-circle",
-  },
-];
-
-function scrollToContact() {
-  document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
-}
 
 export default function ServicesTeaser() {
   return (
-    <section
-      className="section-padding bg-gradient-to-b from-cream to-cream/50"
-      dir="rtl"
-    >
-      <div className="container-max">
-
-        {/* Section header */}
-        <div className="text-center mb-14">
-          <p
-            className="text-xs font-semibold uppercase tracking-widest mb-3"
-            style={{ color: "#c9a97a" }}
-          >
-            שירותים
-          </p>
-          <h2
-            className="text-3xl md:text-4xl font-bold"
-            style={{ color: "#5a3e28" }}
-          >
-            איך אני יכולה לעזור לך?
-          </h2>
-        </div>
-
-        {/* ─── Category A: מפגש אישי ─── */}
-        <div className="mb-16">
-          <div className="text-center mb-10">
-            <h3
-              className="text-4xl md:text-5xl font-bold"
-              style={{ color: "#5a3e28", letterSpacing: "0.01em" }}
+    <section className="section-padding bg-gradient-to-b from-cream to-cream/50" dir="rtl">
+      <div className="container-max text-center">
+        <p className="text-xs font-semibold uppercase tracking-widest mb-8" style={{ color: "#c9a97a" }}>
+          שירותים
+        </p>
+        <div className="flex justify-center gap-10 md:gap-20 mb-10">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center gap-3 group"
             >
-              מפגש אישי - רק את ואני
-            </h3>
-            <div
-              className="mx-auto mt-3"
-              style={{ width: "48px", height: "2px", backgroundColor: "#c9a97a", borderRadius: "1px" }}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {personalServices.map((service, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="rounded-2xl p-7 flex flex-col text-center"
-                style={{
-                  backgroundColor: "#f5f0e8",
-                  boxShadow: "0 2px 16px rgba(90,62,40,0.06)",
-                }}
+              <div
+                className="w-20 h-20 flex items-center justify-center rounded-2xl text-4xl transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
+                style={{ backgroundColor: "#f5f0e8", border: "1px solid rgba(201,169,122,0.3)" }}
               >
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3
-                  className="text-lg font-bold mb-1"
-                  style={{ color: "#5a3e28" }}
-                >
-                  {service.title}
-                </h3>
-                <p
-                  className="text-xs font-semibold mb-4"
-                  style={{ color: "#c9a97a" }}
-                >
-                  {service.subtitle}
-                </p>
-                <p
-                  className="text-sm flex-1 mb-6"
-                  style={{ color: "#5a3e28", opacity: 0.75, lineHeight: 1.85 }}
-                >
-                  {service.description}
-                </p>
-                {service.ctaHref ? (
-                  <a
-                    href={service.ctaHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 block text-center"
-                    style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                  >
-                    {service.ctaLabel}
-                  </a>
-                ) : (
-                  <button
-                    onClick={scrollToContact}
-                    className="w-full py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-                    style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}
-                  >
-                    {service.ctaLabel}
-                  </button>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* ─── Category B: סדנאות פרטיות לקבוצות ─── */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
-            <h3
-              className="text-3xl md:text-4xl font-bold mb-2"
-              style={{ color: "#5a3e28" }}
-            >
-              מחפשת חוויה קבוצתית? 🌸
-            </h3>
-            <p className="text-sm" style={{ color: "#5a3e28", opacity: 0.65 }}>
-              מושלם ליום הולדת, מסיבת רווקות, ערב חברות או כל אירוע מיוחד
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {groupWorkshops.map((ws, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="rounded-2xl p-6 flex flex-col text-center"
-                style={{
-                  backgroundColor: "#ede8df",
-                  boxShadow: "0 2px 12px rgba(90,62,40,0.05)",
-                }}
+                {item.icon}
+              </div>
+              <span
+                className="text-sm font-semibold transition-colors duration-200 group-hover:opacity-80"
+                style={{ color: "#5a3e28" }}
               >
-                <div className="text-3xl mb-3">{ws.icon}</div>
-                <h4
-                  className="text-base font-bold mb-2"
-                  style={{ color: "#5a3e28" }}
-                >
-                  {ws.title}
-                </h4>
-                <p
-                  className="text-sm flex-1 mb-5"
-                  style={{ color: "#5a3e28", opacity: 0.75, lineHeight: 1.85 }}
-                >
-                  {ws.description}
-                </p>
-                <Link
-                  href={`/workshops#${ws.anchor}`}
-                  className="block text-center py-2.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-                  style={{ backgroundColor: "#6b7c5e", color: "#fff" }}
-                >
-                  לפרטים נוספים ←
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+                {item.label}
+              </span>
+            </Link>
+          ))}
         </div>
-
-
+        <Link
+          href="/services"
+          className="text-sm font-medium hover:opacity-75 transition-opacity"
+          style={{ color: "#c9a97a" }}
+        >
+          לכל השירותים ←
+        </Link>
       </div>
     </section>
   );
