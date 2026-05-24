@@ -41,7 +41,6 @@ const FIELD = {
 } as const;
 const INPUT_CLS = "w-full px-4 py-3 rounded-xl text-sm outline-none text-right placeholder:opacity-50";
 
-/* ── Oracle card visuals ─────────────────────────────────────────── */
 function OracleCardBack({ large }: { large?: boolean }) {
   const d = large ? 100 : 38;
   const count = large ? 5 : 3;
@@ -74,7 +73,6 @@ function OracleCardFront({ card }: { card: (typeof ORACLE_CARDS)[0] }) {
   );
 }
 
-/* ── Inline card draw ────────────────────────────────────────────── */
 function InlineCardDraw() {
   const [cardPhase, setCardPhase] = useState<CardPhase>("choosing");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -96,7 +94,7 @@ function InlineCardDraw() {
     } catch {}
   }, []);
 
-  function handleCardClick(index: number) {
+  function pickCard(index: number) {
     if (cardPhase === "revealed") {
       setToastVisible(true);
       setTimeout(() => setToastVisible(false), 2500);
@@ -108,6 +106,11 @@ function InlineCardDraw() {
       setIsFlipped(true);
       setTimeout(() => setCardPhase("revealed"), 950);
     }, 80);
+  }
+
+  function pickRandom() {
+    if (cardPhase !== "choosing") return;
+    pickCard(Math.floor(Math.random() * ORACLE_CARDS.length));
   }
 
   const selectedCard = selectedIndex !== null ? ORACLE_CARDS[selectedIndex] : null;
@@ -130,14 +133,27 @@ function InlineCardDraw() {
         .e-track.paused{animation-play-state:paused}
         .e-card{transition:transform .2s ease;cursor:pointer}
         .e-card:not(.done):hover{transform:translateY(-7px) scale(1.06) !important}
+        .e-big-card{cursor:pointer;transition:transform .15s ease}
+        .e-big-card:not(.done):hover{transform:scale(1.03)}
       `}</style>
 
-      <p style={{ textAlign: "center", color: "#c9a97a", fontSize: "13px", fontStyle: "italic", opacity: 0.8, marginBottom: "18px" }}>
-        {isDone ? "קלף המסר שלך להיום ✦" : "בחרי קלף מסר להיום ✦"}
+      <p style={{ textAlign: "center", color: "#c9a97a", fontSize: "13px", fontStyle: "italic", opacity: 0.8, marginBottom: "10px" }}>
+        {isDone ? "קלף המסר שלך להיום ✦" : "לחצי על הקלף לגילוי המסר שלך ✦"}
       </p>
 
+      {!isDone && (
+        <p style={{ textAlign: "center", color: "#f5f0e8", fontSize: "11px", opacity: 0.4, marginBottom: "14px", fontStyle: "italic" }}>
+          או בחרי קלף מהספריה למטה
+        </p>
+      )}
+
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "18px" }}>
-        <div className="e-flip" style={{ width: "180px", height: "270px" }}>
+        <div
+          className={`e-flip e-big-card${isDone ? " done" : ""}`}
+          style={{ width: "180px", height: "270px" }}
+          onClick={pickRandom}
+          title={isDone ? "" : "לחצי לגילוי הקלף"}
+        >
           <div className={`e-inner${isFlipped ? " flipped" : ""}`}>
             <div className={`e-face${!isFlipped ? " e-glow" : ""}`} style={{ backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(201,169,122,0.3)" }}>
               <OracleCardBack large />
@@ -167,7 +183,7 @@ function InlineCardDraw() {
               <div
                 key={i}
                 className={`e-card${isDone ? " done" : ""}`}
-                onClick={() => handleCardClick(i % ORACLE_CARDS.length)}
+                onClick={() => pickCard(i % ORACLE_CARDS.length)}
                 style={{ width: "70px", height: "105px", flexShrink: 0, transform: `rotate(${rotation}deg)`, opacity: isDone ? (isSel ? 1 : 0.22) : 1, filter: isDone && !isSel ? "blur(1px) saturate(0.3)" : "none", outline: isSel ? "2px solid rgba(201,169,122,.65)" : "none", outlineOffset: "2px", borderRadius: "6px" }}
               >
                 <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.07)", border: `1px solid ${isSel ? "rgba(201,169,122,.55)" : "rgba(201,169,122,.22)"}`, borderRadius: "6px" }}>
@@ -188,13 +204,12 @@ function InlineCardDraw() {
   );
 }
 
-/* ── Energy number cards ─────────────────────────────────────────── */
 function EnergyCards({ nums }: { nums: EnergyNums }) {
   const { personalYear: py, personalMonth: pm, personalDay: pd } = nums;
   const cards = [
     { label: "שנה אישית", num: py, title: yearContent[py].title, body: yearContent[py].brings },
     { label: "חודש אישי", num: pm, title: monthContent[pm].title, body: monthContent[pm].brings },
-    { label: "יום אישי",  num: pd, title: dayContent[pd].recommended["נקבה"], body: "" },
+    { label: "יום אישי",  num: pd, title: dayContent[pd].title, body: "" },
   ];
   return (
     <div className="w-full max-w-3xl mx-auto">
@@ -219,7 +234,6 @@ function EnergyCards({ nums }: { nums: EnergyNums }) {
   );
 }
 
-/* ── Inline registration form ────────────────────────────────────── */
 interface InlineRegisterProps {
   previewName: string;
   previewBirthDate: string;
@@ -237,12 +251,10 @@ function InlineRegister({ previewName, previewBirthDate, onSuccess }: InlineRegi
     setError("");
     setSubmitting(true);
     try {
-      const autoPassword =
-        (crypto.randomUUID?.() ?? Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12));
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: previewName, email, phone: phone || undefined, birthDate: previewBirthDate, password: autoPassword }),
+        body: JSON.stringify({ name: previewName, email, phone: phone || undefined, birthDate: previewBirthDate }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.error || "שגיאה בהרשמה"); return; }
@@ -283,7 +295,6 @@ function InlineRegister({ previewName, previewBirthDate, onSuccess }: InlineRegi
   );
 }
 
-/* ── Main component ──────────────────────────────────────────────── */
 export default function EnergyTeaser() {
   const [view, setView] = useState<ViewState>("loading");
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
@@ -291,7 +302,6 @@ export default function EnergyTeaser() {
   const [previewName, setPreviewName] = useState("");
   const [previewBirthDate, setPreviewBirthDate] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loginSubmitting, setLoginSubmitting] = useState(false);
 
@@ -338,10 +348,10 @@ export default function EnergyTeaser() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+        body: JSON.stringify({ email: loginEmail }),
       });
       const data = await res.json();
-      if (!res.ok) { setLoginError(data.error || "מייל או סיסמה שגויים"); return; }
+      if (!res.ok) { setLoginError(data.error || "המייל לא נמצא במערכת"); return; }
       setAuthUser({ name: data.name, birthDate: data.birthDate });
       const n = calculate({ name: data.name, birthDate: data.birthDate, gender: "נקבה" });
       setNums(n);
@@ -364,7 +374,6 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Form ── */}
           {view === "preview_form" && (
             <motion.div key="preview_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
               <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#c9a97a" }}>גלי את האנרגיה שלך</p>
@@ -384,7 +393,6 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Results: ניתוח + קלף + CTA ── */}
           {view === "preview_results" && nums && (
             <motion.div key="preview_results" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
               <div className="text-center mb-8">
@@ -407,7 +415,7 @@ export default function EnergyTeaser() {
 
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }} className="text-center mt-4">
                 <p className="text-base mb-5" style={{ color: "#f5f0e8", opacity: 0.82, lineHeight: 1.7 }}>
-                  רוצה לדעת באופן קבוע את האנרגיה<br />היומית שלך?
+                  רוצה לדעת באופן קבוע את האנרגיה<br />היומית שלך ולקבל קלף מסר כל יום?
                 </p>
                 <button
                   onClick={() => setView("register_form")}
@@ -420,7 +428,6 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Registration form (separate step) ── */}
           {view === "register_form" && (
             <motion.div key="register_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto">
               <div className="text-center mb-8">
@@ -446,13 +453,12 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Locked ── */}
           {view === "locked" && (
             <motion.div key="locked" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto text-center">
               <div className="text-5xl mb-5">🔒</div>
               <h2 className="text-2xl font-bold mb-3" style={{ color: "#f5f0e8" }}>האנרגיה היומית שלך מחכה</h2>
               <p className="text-sm mb-8" style={{ color: "#f5f0e8", opacity: 0.72, lineHeight: 1.85 }}>
-                כניסה לאזור האישי לגישה מלאה לאנרגיה שלך וקלף מסר — כל יום.
+                הזיני את המייל שנרשמת איתו לכניסה לאזור האישי.
               </p>
               <button onClick={() => setView("login_form")} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
                 כניסה לאזור האישי ←
@@ -460,13 +466,12 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Login form ── */}
           {view === "login_form" && (
             <motion.div key="login_form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="max-w-sm mx-auto">
-              <h2 className="text-2xl font-bold mb-6 text-center" style={{ color: "#f5f0e8" }}>כניסה לאזור האישי</h2>
+              <h2 className="text-2xl font-bold mb-3 text-center" style={{ color: "#f5f0e8" }}>כניסה לאזור האישי</h2>
+              <p className="text-sm text-center mb-6" style={{ color: "#f5f0e8", opacity: 0.6 }}>הזיני את המייל שנרשמת איתו</p>
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
                 <input type="email" placeholder="כתובת מייל" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-                <input type="password" placeholder="סיסמה" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
                 {loginError && <p className="text-xs text-center" style={{ color: "#fca5a5" }}>{loginError}</p>}
                 <button type="submit" disabled={loginSubmitting} className="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300 hover:shadow-md mt-2 disabled:opacity-60" style={{ backgroundColor: "#c9a97a", color: "#5a3e28" }}>
                   {loginSubmitting ? "...נכנסת" : "כניסה ←"}
@@ -476,7 +481,6 @@ export default function EnergyTeaser() {
             </motion.div>
           )}
 
-          {/* ── Logged in: analysis + oracle cards ── */}
           {view === "logged_in" && authUser && nums && (
             <motion.div key="logged_in" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
               <div className="text-center mb-8">
