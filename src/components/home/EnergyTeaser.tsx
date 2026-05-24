@@ -78,7 +78,9 @@ function InlineCardDraw() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
-  const [paused, setPaused] = useState(false);
+  const [hoverPaused, setHoverPaused] = useState(false);
+  const [touchPaused, setTouchPaused] = useState(false);
+  const paused = hoverPaused || touchPaused;
 
   useEffect(() => {
     try {
@@ -108,11 +110,6 @@ function InlineCardDraw() {
     }, 80);
   }
 
-  function pickRandom() {
-    if (cardPhase !== "choosing") return;
-    pickCard(Math.floor(Math.random() * ORACLE_CARDS.length));
-  }
-
   const selectedCard = selectedIndex !== null ? ORACLE_CARDS[selectedIndex] : null;
   const isDone = cardPhase === "revealed";
 
@@ -129,30 +126,31 @@ function InlineCardDraw() {
         .e-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:11px;overflow:hidden}
         .e-face-front{transform:rotateY(180deg)}
         .e-glow{animation:eGlow 3s ease-in-out infinite}
-        .e-track{animation:eScroll 36s linear infinite}
+        .e-track{animation:eScroll 36s linear infinite;will-change:transform}
         .e-track.paused{animation-play-state:paused}
-        .e-card{transition:transform .2s ease;cursor:pointer}
-        .e-card:not(.done):hover{transform:translateY(-7px) scale(1.06) !important}
-        .e-big-card{cursor:pointer;transition:transform .15s ease}
-        .e-big-card:not(.done):hover{transform:scale(1.03)}
+        .e-card{transition:transform .2s ease,box-shadow .2s ease;cursor:pointer;border-radius:6px}
+        .e-card:not(.done):hover,.e-card:not(.done):active{transform:translateY(-10px) scale(1.1) !important;box-shadow:0 8px 24px rgba(201,169,122,.3)}
       `}</style>
 
-      <p style={{ textAlign: "center", color: "#c9a97a", fontSize: "13px", fontStyle: "italic", opacity: 0.8, marginBottom: "10px" }}>
-        {isDone ? "קלף המסר שלך להיום ✦" : "לחצי על הקלף לגילוי המסר שלך ✦"}
+      <p style={{ textAlign: "center", color: "#c9a97a", fontSize: "13px", fontStyle: "italic", opacity: 0.8, marginBottom: "6px" }}>
+        {isDone ? "קלף המסר שלך להיום ✦" : "בחרי קלף מסר להיום ✦"}
       </p>
-
       {!isDone && (
-        <p style={{ textAlign: "center", color: "#f5f0e8", fontSize: "11px", opacity: 0.4, marginBottom: "14px", fontStyle: "italic" }}>
-          או בחרי קלף מהספריה למטה
+        <p style={{ textAlign: "center", color: "#f5f0e8", fontSize: "11px", opacity: 0.45, marginBottom: "16px" }}>
+          לחצי על אחד מהקלפים למטה — או על הקלף הגדול לבחירה אקראית
         </p>
       )}
 
+      {/* Big flip card - click for random pick */}
       <div style={{ display: "flex", justifyContent: "center", marginBottom: "18px" }}>
         <div
-          className={`e-flip e-big-card${isDone ? " done" : ""}`}
-          style={{ width: "180px", height: "270px" }}
-          onClick={pickRandom}
-          title={isDone ? "" : "לחצי לגילוי הקלף"}
+          className="e-flip"
+          style={{ width: "180px", height: "270px", cursor: isDone ? "default" : "pointer" }}
+          onClick={() => {
+            if (cardPhase !== "choosing") return;
+            pickCard(Math.floor(Math.random() * ORACLE_CARDS.length));
+          }}
+          title={isDone ? "" : "לחצי לבחירה אקראית"}
         >
           <div className={`e-inner${isFlipped ? " flipped" : ""}`}>
             <div className={`e-face${!isFlipped ? " e-glow" : ""}`} style={{ backgroundColor: "rgba(255,255,255,0.08)", border: "1px solid rgba(201,169,122,0.3)" }}>
@@ -171,7 +169,19 @@ function InlineCardDraw() {
         </p>
       )}
 
-      <div style={{ overflow: "hidden", position: "relative" }} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      {/* Scrolling carousel */}
+      {!isDone && (
+        <p style={{ textAlign: "center", color: "#c9a97a", fontSize: "11px", opacity: 0.55, marginBottom: "8px" }}>
+          {touchPaused || hoverPaused ? "✦ הקלפים עצרו — בחרי את שלך" : "העבירי/געי כדי לעצור את הקלפים"}
+        </p>
+      )}
+      <div
+        style={{ overflow: "hidden", position: "relative" }}
+        onMouseEnter={() => setHoverPaused(true)}
+        onMouseLeave={() => setHoverPaused(false)}
+        onTouchStart={() => setTouchPaused(true)}
+        onTouchEnd={() => !isDone && setTimeout(() => setTouchPaused(false), 800)}
+      >
         <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none", background: "linear-gradient(to right,rgba(90,62,40,1) 0%,transparent 16%,transparent 84%,rgba(90,62,40,1) 100%)" }} />
         <div className={`e-track${paused ? " paused" : ""}`} style={{ display: "flex", gap: "10px", width: "max-content", paddingBottom: "8px", alignItems: "flex-end" }}>
           {[...ORACLE_CARDS, ...ORACLE_CARDS].map((_, i) => {
@@ -184,7 +194,14 @@ function InlineCardDraw() {
                 key={i}
                 className={`e-card${isDone ? " done" : ""}`}
                 onClick={() => pickCard(i % ORACLE_CARDS.length)}
-                style={{ width: "70px", height: "105px", flexShrink: 0, transform: `rotate(${rotation}deg)`, opacity: isDone ? (isSel ? 1 : 0.22) : 1, filter: isDone && !isSel ? "blur(1px) saturate(0.3)" : "none", outline: isSel ? "2px solid rgba(201,169,122,.65)" : "none", outlineOffset: "2px", borderRadius: "6px" }}
+                style={{
+                  width: "70px", height: "105px", flexShrink: 0,
+                  transform: `rotate(${rotation}deg)`,
+                  opacity: isDone ? (isSel ? 1 : 0.22) : 1,
+                  filter: isDone && !isSel ? "blur(1px) saturate(0.3)" : "none",
+                  outline: isSel ? "2px solid rgba(201,169,122,.65)" : "none",
+                  outlineOffset: "2px",
+                }}
               >
                 <div style={{ width: "100%", height: "100%", backgroundColor: "rgba(255,255,255,0.07)", border: `1px solid ${isSel ? "rgba(201,169,122,.55)" : "rgba(201,169,122,.22)"}`, borderRadius: "6px" }}>
                   <OracleCardBack />
@@ -209,7 +226,7 @@ function EnergyCards({ nums }: { nums: EnergyNums }) {
   const cards = [
     { label: "שנה אישית", num: py, title: yearContent[py].title, body: yearContent[py].brings },
     { label: "חודש אישי", num: pm, title: monthContent[pm].title, body: monthContent[pm].brings },
-    { label: "יום אישי",  num: pd, title: dayContent[pd].title, body: "" },
+    { label: "יום אישי",  num: pd, title: dayContent[pd].recommended["נקבה"], body: "" },
   ];
   return (
     <div className="w-full max-w-3xl mx-auto">
