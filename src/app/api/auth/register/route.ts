@@ -1,25 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { resend, CONTACT_EMAIL } from "@/lib/resend";
 import { signToken, AUTH_COOKIE } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, phone, password, birthDate } = await req.json();
+    const { name, email, phone, birthDate } = await req.json();
 
-    if (!name || !email || !password || !birthDate) {
+    if (!name || !email || !birthDate) {
       return NextResponse.json({ error: "שדות חסרים" }, { status: 400 });
     }
 
     const existing = await prisma.energyUser.findUnique({ where: { email } });
     if (existing) {
-      return NextResponse.json({ error: "כתובת המייל כבר רשומה במערכת" }, { status: 409 });
+      // Auto-login existing user instead of erroring
+      const token = await signToken({ userId: existing.id, name: existing.name, birthDate: existing.birthDate });
+      const res = NextResponse.json({ name: existing.name, birthDate: existing.birthDate });
+      res.cookies.set(AUTH_COOKIE, token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      return res;
     }
 
-    const hash = await bcrypt.hash(password, 12);
     const user = await prisma.energyUser.create({
-      data: { name, email, phone: phone || null, birthDate, password: hash },
+      data: { name, email, phone: phone || null, birthDate, password: "" },
     });
 
     const token = await signToken({ userId: user.id, name: user.name, birthDate: user.birthDate });
@@ -41,15 +49,15 @@ export async function POST(req: NextRequest) {
       `,
     }).catch(() => {});
 
-    const res = NextResponse.json({ name: user.name, birthDate: user.birthDate });
-    res.cookies.set(AUTH_COOKIE, token, {
+    const response = NextResponse.json({ name: user.name, birthDate: user.birthDate });
+    response.cookies.set(AUTH_COOKIE, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 30,
       path: "/",
     });
-    return res;
+    return response;
   } catch {
     return NextResponse.json({ error: "שגיאה בשרת" }, { status: 500 });
   }
