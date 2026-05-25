@@ -20,11 +20,13 @@ export default function HomePage() {
       <Hero />
       <WhoIsItFor />
       <ServicesTeaser />
-      <TestimonialSection />
       <EnergyTeaser />
+      <TestimonialSection />
       <HomeContactForm />
       <CtaSection />
       <InstagramFeed />
     </>
   );
 }
+
+
