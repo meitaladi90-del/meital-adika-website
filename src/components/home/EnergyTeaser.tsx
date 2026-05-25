@@ -7,6 +7,13 @@ import { calculate, yearContent, monthContent, dayContent } from "@/lib/numerolo
 const STORAGE_KEY = "numerology_profile";
 const PREVIEW_USED_KEY = "energy_preview_used";
 const CARD_STORAGE_KEY = "adikAura_daily";
+const AUTH_CACHE_KEY = "energy_auth_v1";
+
+function saveAuthCache(name: string, birthDate: string) {
+  try {
+    localStorage.setItem(AUTH_CACHE_KEY, JSON.stringify({ name, birthDate, expiry: Date.now() + 29 * 24 * 60 * 60 * 1000 }));
+  } catch {}
+}
 
 type ViewState = "loading" | "preview_form" | "preview_results" | "register_form" | "locked" | "logged_in";
 type CardPhase = "choosing" | "revealed";
@@ -337,9 +344,30 @@ function InlineRegister({ previewName, previewBirthDate, onSuccess }: { previewN
 }
 
 export default function EnergyTeaser() {
-  const [view, setView] = useState<ViewState>("loading");
-  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [nums, setNums] = useState<EnergyNums | null>(null);
+  const [view, setView] = useState<ViewState>(() => {
+    if (typeof window === "undefined") return "loading";
+    try {
+      const c = localStorage.getItem(AUTH_CACHE_KEY);
+      if (c) { const { expiry } = JSON.parse(c); if (expiry > Date.now()) return "logged_in"; }
+    } catch {}
+    return "loading";
+  });
+  const [authUser, setAuthUser] = useState<AuthUser | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const c = localStorage.getItem(AUTH_CACHE_KEY);
+      if (c) { const { name, birthDate, expiry } = JSON.parse(c); if (expiry > Date.now()) return { name, birthDate }; }
+    } catch {}
+    return null;
+  });
+  const [nums, setNums] = useState<EnergyNums | null>(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const c = localStorage.getItem(AUTH_CACHE_KEY);
+      if (c) { const { name, birthDate, expiry } = JSON.parse(c); if (expiry > Date.now()) return calculate({ name, birthDate, gender: "נקבה" }); }
+    } catch {}
+    return null;
+  });
   const [previewName, setPreviewName] = useState("");
   const [previewBirthDate, setPreviewBirthDate] = useState("");
 
@@ -352,13 +380,16 @@ export default function EnergyTeaser() {
           const n = calculate({ name: user.name, birthDate: user.birthDate, gender: "נקבה" });
           setNums(n);
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: user.name, birthDate: user.birthDate, gender: "נקבה" }));
+          saveAuthCache(user.name, user.birthDate);
           setView("logged_in");
         } else {
+          localStorage.removeItem(AUTH_CACHE_KEY);
           setView(localStorage.getItem(PREVIEW_USED_KEY) === "true" ? "locked" : "preview_form");
         }
       })
       .catch(() => {
-        setView(localStorage.getItem(PREVIEW_USED_KEY) === "true" ? "locked" : "preview_form");
+        if (view === "loading")
+          setView(localStorage.getItem(PREVIEW_USED_KEY) === "true" ? "locked" : "preview_form");
       });
   }, []);
 
@@ -375,6 +406,7 @@ export default function EnergyTeaser() {
   function handleRegisterSuccess(user: AuthUser, n: EnergyNums) {
     setAuthUser(user);
     setNums(n);
+    saveAuthCache(user.name, user.birthDate);
     setView("logged_in");
   }
 
