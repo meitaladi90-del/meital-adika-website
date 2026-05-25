@@ -280,7 +280,7 @@ export default function DailyEnergySection() {
       dir="rtl"
       id="daily-card"
       style={{
-        backgroundColor: "#3D2010",
+        backgroundColor: "#5a3e28",
         padding: "64px 20px 80px",
         fontFamily: "'Cormorant Garamond', serif",
       }}
@@ -430,7 +430,7 @@ export default function DailyEnergySection() {
                 zIndex: 2,
                 pointerEvents: "none",
                 background:
-                  "linear-gradient(to right, #3D2010 0%, transparent 14%, transparent 86%, #3D2010 100%)",
+                  "linear-gradient(to right, #5a3e28 0%, transparent 14%, transparent 86%, #5a3e28 100%)",
               }}
             />
 
