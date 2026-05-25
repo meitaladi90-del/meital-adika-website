@@ -15,7 +15,7 @@ function saveAuthCache(name: string, birthDate: string) {
   } catch {}
 }
 
-type ViewState = "loading" | "preview_form" | "preview_results" | "register_form" | "locked" | "logged_in";
+type ViewState = "loading" | "preview_form" | "preview_results" | "register_form" | "locked" | "forgot_password" | "forgot_sent" | "logged_in";
 type CardPhase = "choosing" | "revealed";
 
 interface EnergyNums { personalYear: number; personalMonth: number; personalDay: number; }
@@ -241,76 +241,28 @@ function EnergyCards({ nums }: { nums: EnergyNums }) {
   );
 }
 
-function FullRegisterForm({ onSuccess }: { onSuccess: (user: AuthUser, nums: EnergyNums) => void }) {
-  const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    setSubmitting(true);
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone: phone || undefined, birthDate }),
-      });
-      const data = await res.json();
-      if (!res.ok) { setError(data.error || "שגיאה"); return; }
-      const n = calculate({ name: data.name, birthDate: data.birthDate, gender: "נקבה" });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: data.name, birthDate: data.birthDate, gender: "נקבה" }));
-      localStorage.removeItem(PREVIEW_USED_KEY);
-      onSuccess({ name: data.name, birthDate: data.birthDate }, n);
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-      style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: "16px", padding: "28px", border: "1px solid rgba(201,169,122,0.22)", maxWidth: "400px", margin: "0 auto" }}
-    >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <input type="text" placeholder="שם מלא *" value={name} onChange={(e) => setName(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-        <div>
-          <label className="block text-xs mb-1 text-right" style={{ color: GOLD }}>תאריך לידה *</label>
-          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required className={INPUT_CLS} style={{ ...FIELD, colorScheme: "dark" } as React.CSSProperties} />
-        </div>
-        <input type="email" placeholder="כתובת מייל *" value={email} onChange={(e) => setEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
-        <input type="tel" placeholder="טלפון" value={phone} onChange={(e) => setPhone(e.target.value)} className={INPUT_CLS} style={FIELD} />
-        {error && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{error}</p>}
-        <button type="submit" disabled={submitting}
-          style={{ backgroundColor: GOLD, color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.65 : 1, marginTop: "4px" }}
-        >
-          {submitting ? "...נרשמת" : "כניסה לאזור האישי ←"}
-        </button>
-      </form>
-    </motion.div>
-  );
-}
-
 function InlineRegister({ previewName, previewBirthDate, onSuccess }: { previewName: string; previewBirthDate: string; onSuccess: (user: AuthUser, nums: EnergyNums) => void }) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (password.length < 6) { setError("הסיסמה חייבת להכיל לפחות 6 תווים"); return; }
+    if (password !== confirmPassword) { setError("הסיסמאות אינן תואמות"); return; }
     setSubmitting(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: previewName, email, phone: phone || undefined, birthDate: previewBirthDate }),
+        body: JSON.stringify({ name: previewName, email, phone: phone || undefined, birthDate: previewBirthDate, password }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || "שגיאה"); return; }
+      if (!res.ok) { setError(data.error || "שגיאה בהרשמה"); return; }
       const n = calculate({ name: data.name, birthDate: data.birthDate, gender: "נקבה" });
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: data.name, birthDate: data.birthDate, gender: "נקבה" }));
       localStorage.removeItem(PREVIEW_USED_KEY);
@@ -324,7 +276,7 @@ function InlineRegister({ previewName, previewBirthDate, onSuccess }: { previewN
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
       style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: "16px", padding: "24px", border: "1px solid rgba(201,169,122,0.22)", maxWidth: "400px", margin: "0 auto" }}
     >
-      <div style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: "10px", padding: "10px 14px", marginBottom: "14px", border: "1px solid rgba(201,169,122,0.15)" }}>
+      <div style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: "10px", padding: "10px 14px", marginBottom: "16px", border: "1px solid rgba(201,169,122,0.15)" }}>
         <p style={{ color: GOLD, fontSize: "10px", opacity: 0.7, marginBottom: "3px" }}>הפרטים שלך</p>
         <p style={{ color: CREAM, fontSize: "13px", fontWeight: 500 }}>{previewName}</p>
         <p style={{ color: CREAM, fontSize: "12px", opacity: 0.6 }}>{previewBirthDate}</p>
@@ -332,6 +284,8 @@ function InlineRegister({ previewName, previewBirthDate, onSuccess }: { previewN
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input type="email" placeholder="כתובת מייל *" value={email} onChange={(e) => setEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
         <input type="tel" placeholder="טלפון" value={phone} onChange={(e) => setPhone(e.target.value)} className={INPUT_CLS} style={FIELD} />
+        <input type="password" placeholder="סיסמה (לפחות 6 תווים) *" value={password} onChange={(e) => setPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+        <input type="password" placeholder="אימות סיסמה *" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
         {error && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{error}</p>}
         <button type="submit" disabled={submitting}
           style={{ backgroundColor: GOLD, color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.65 : 1, marginTop: "4px" }}
@@ -371,6 +325,17 @@ export default function EnergyTeaser() {
   const [previewName, setPreviewName] = useState("");
   const [previewBirthDate, setPreviewBirthDate] = useState("");
 
+  // Login state
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loginSubmitting, setLoginSubmitting] = useState(false);
+
+  // Forgot password state
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotError, setForgotError] = useState("");
+  const [forgotSubmitting, setForgotSubmitting] = useState(false);
+
   useEffect(() => {
     fetch("/api/auth/me")
       .then((r) => r.json())
@@ -408,6 +373,47 @@ export default function EnergyTeaser() {
     setNums(n);
     saveAuthCache(user.name, user.birthDate);
     setView("logged_in");
+  }
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setLoginError("");
+    setLoginSubmitting(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setLoginError(data.error || "שגיאה בכניסה"); return; }
+      const n = calculate({ name: data.name, birthDate: data.birthDate, gender: "נקבה" });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: data.name, birthDate: data.birthDate, gender: "נקבה" }));
+      saveAuthCache(data.name, data.birthDate);
+      setAuthUser({ name: data.name, birthDate: data.birthDate });
+      setNums(n);
+      setView("logged_in");
+    } finally {
+      setLoginSubmitting(false);
+    }
+  }
+
+  async function handleForgotPassword(e: React.FormEvent) {
+    e.preventDefault();
+    setForgotError("");
+    setForgotSubmitting(true);
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setForgotError(data.error || "שגיאה"); return; }
+      setView("forgot_sent");
+    } finally {
+      setForgotSubmitting(false);
+    }
   }
 
   return (
@@ -483,15 +489,75 @@ export default function EnergyTeaser() {
           )}
 
           {view === "locked" && (
-            <motion.div key="locked" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-md mx-auto">
+            <motion.div key="locked" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-sm mx-auto">
               <div className="text-center mb-8">
                 <div className="text-5xl mb-5">🔒</div>
                 <h2 className="text-2xl font-bold mb-3" style={{ color: GOLD }}>האנרגיה היומית שלך מחכה</h2>
-                <p className="text-sm mb-8" style={{ color: CREAM, opacity: 0.72, lineHeight: 1.85 }}>
-                  מלאי שוב את הפרטים שלך לכניסה לאזור האישי
+                <p className="text-sm" style={{ color: CREAM, opacity: 0.65 }}>כניסה לאזור האישי</p>
+              </div>
+              <motion.div
+                style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: "16px", padding: "28px", border: "1px solid rgba(201,169,122,0.22)" }}
+              >
+                <form onSubmit={handleLogin} className="flex flex-col gap-3">
+                  <input type="email" placeholder="כתובת מייל *" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                  <input type="password" placeholder="סיסמה *" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                  {loginError && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{loginError}</p>}
+                  <button type="submit" disabled={loginSubmitting}
+                    style={{ backgroundColor: GOLD, color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: loginSubmitting ? "not-allowed" : "pointer", opacity: loginSubmitting ? 0.65 : 1, marginTop: "4px" }}
+                  >
+                    {loginSubmitting ? "...נכנסת" : "כניסה ←"}
+                  </button>
+                </form>
+                <button
+                  type="button"
+                  onClick={() => { setForgotEmail(loginEmail); setView("forgot_password"); }}
+                  className="block mx-auto mt-4 text-xs"
+                  style={{ color: GOLD, opacity: 0.6, background: "none", border: "none", cursor: "pointer" }}
+                >
+                  שכחתי סיסמה
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {view === "forgot_password" && (
+            <motion.div key="forgot_password" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-sm mx-auto">
+              <div className="text-center mb-8">
+                <div className="text-5xl mb-5">📧</div>
+                <h2 className="text-2xl font-bold mb-3" style={{ color: GOLD }}>איפוס סיסמה</h2>
+                <p className="text-sm" style={{ color: CREAM, opacity: 0.65, lineHeight: 1.7 }}>
+                  נשלח לך קישור לאיפוס הסיסמה<br />לכתובת המייל שלך
                 </p>
               </div>
-              <FullRegisterForm onSuccess={handleRegisterSuccess} />
+              <motion.div
+                style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: "16px", padding: "28px", border: "1px solid rgba(201,169,122,0.22)" }}
+              >
+                <form onSubmit={handleForgotPassword} className="flex flex-col gap-3">
+                  <input type="email" placeholder="כתובת מייל *" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} required className={INPUT_CLS} style={FIELD} />
+                  {forgotError && <p style={{ color: "#fca5a5", fontSize: "12px", textAlign: "center" }}>{forgotError}</p>}
+                  <button type="submit" disabled={forgotSubmitting}
+                    style={{ backgroundColor: GOLD, color: "#5a3e28", padding: "13px", borderRadius: "40px", fontWeight: "bold", fontSize: "14px", border: "none", cursor: forgotSubmitting ? "not-allowed" : "pointer", opacity: forgotSubmitting ? 0.65 : 1, marginTop: "4px" }}
+                  >
+                    {forgotSubmitting ? "...שולח" : "שלחי לי קישור לאיפוס ←"}
+                  </button>
+                </form>
+                <button type="button" onClick={() => setView("locked")} className="block mx-auto mt-4 text-xs" style={{ color: CREAM, opacity: 0.35, background: "none", border: "none", cursor: "pointer" }}>
+                  חזרה לכניסה
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {view === "forgot_sent" && (
+            <motion.div key="forgot_sent" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="max-w-sm mx-auto text-center">
+              <div className="text-6xl mb-6">✉️</div>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: GOLD }}>נשלח! בדקי את המייל שלך</h2>
+              <p className="text-sm mb-8" style={{ color: CREAM, opacity: 0.72, lineHeight: 1.85 }}>
+                שלחנו לך קישור לאיפוס הסיסמה.<br />הקישור בתוקף ל-15 דקות.
+              </p>
+              <button type="button" onClick={() => setView("locked")} className="text-xs" style={{ color: GOLD, opacity: 0.6, background: "none", border: "none", cursor: "pointer" }}>
+                חזרה לכניסה
+              </button>
             </motion.div>
           )}
 
