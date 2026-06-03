@@ -2,7 +2,17 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import SectionTitle from "@/components/ui/SectionTitle";
+
+const testimonials = [
+  "/testimonials/testimonial-1.jpeg",
+  "/testimonials/testimonial-2.jpeg",
+  "/testimonials/testimonial-3.jpeg",
+  "/testimonials/testimonial-4.jpeg",
+  "/testimonials/testimonial-5.jpeg",
+  "/testimonials/testimonial-6.jpeg",
+];
 
 export default function TestimonialSection() {
   return (
@@ -19,32 +29,26 @@ export default function TestimonialSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-12 max-w-2xl mx-auto"
+          className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          <div className="relative bg-cream/10 backdrop-blur rounded-2xl p-8 md:p-12 border border-gold/30">
-            {/* Quote mark */}
-            <div className="absolute -top-6 right-8 text-6xl text-gold font-serif leading-none">"</div>
-
-            <p className="text-cream text-xl md:text-2xl leading-relaxed font-light">
-              מיטל שינתה לי את החיים. אחרי פגישה אחת איתה הבנתי למה כל הדרך שעברתי הכינה אותי לרגע הזה.
-              ה-ייעוץ הנומרולוגי היה מדויק בצורה שלא יכולתי לדמיין - כאילו היא קוראת את הנשמה שלי.
-            </p>
-
-            <div className="mt-8 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gold/30 flex items-center justify-center text-gold font-bold text-lg">
-                ר
-              </div>
-              <div>
-                <p className="font-semibold text-cream">רחל כהן</p>
-                <p className="text-gold/70 text-sm">ייעוץ נומרולוגיה אישי</p>
-              </div>
-              <div className="mr-auto flex gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span key={i} className="text-gold text-lg">★</span>
-                ))}
-              </div>
-            </div>
-          </div>
+          {testimonials.map((src, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="rounded-2xl overflow-hidden border border-gold/30 shadow-lg"
+            >
+              <Image
+                src={src}
+                alt={`המלצת לקוחה ${i + 1}`}
+                width={600}
+                height={800}
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
+          ))}
         </motion.div>
 
         <motion.div
