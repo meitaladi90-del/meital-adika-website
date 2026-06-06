@@ -22,7 +22,7 @@ export default function ServicesTeaser() {
               className="flex flex-col items-center gap-3 group"
             >
               <div
-                className="w-24 h-24 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
+                className="w-36 h-36 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
                 style={{ border: "1px solid rgba(201,169,122,0.3)" }}
               >
                 <Image
