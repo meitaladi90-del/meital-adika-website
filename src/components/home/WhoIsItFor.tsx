@@ -58,25 +58,42 @@ export default function WhoIsItFor() {
       </section>
 
       <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="w-full py-14 px-4 text-center"
+        className="w-full py-20 px-4 text-center"
         dir="rtl"
-        style={{ backgroundColor: "#5a3e28" }}
+        style={{ backgroundColor: "#f5f0e8" }}
       >
-        <p className="text-3xl md:text-4xl font-bold mb-5" style={{ color: "#c9a97a" }}>
+        {/* Divider top */}
+        <div className="mx-auto mb-10" style={{ width: "60px", height: "2px", backgroundColor: "#c9a97a" }} />
+
+        <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ color: "#5a3e28" }}>
           גם אני הייתי שם
+        </h2>
+
+        <div className="max-w-[650px] mx-auto text-center" style={{ color: "#5a3e28", fontSize: "18px", lineHeight: "1.9" }}>
+          <p className="mb-5">
+            בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
+          </p>
+          <p className="mb-5">
+            עד שיום אחד התעוררתי — והחלטתי לשנות כיוון ולחיות את חיי החופש שלי.
+          </p>
+          <p className="mb-5">
+            בדרך גיליתי על עצמי דברים חדשים, חקרתי, והפכתי לגרסה הטובה ביותר של עצמי — היום אני חיה את החיים שתמיד רציתי, עיסוק שממלא אותי, שגרה שנעימה לי, וחיי אהבה.
+          </p>
+          <p>
+            ועכשיו אני כאן כדי ללוות אותך בדרך שלך — להתעוררות שלך.
+          </p>
+        </div>
+
+        <p className="mt-8 font-bold" style={{ color: "#c9a97a", fontSize: "22px" }}>
+          לחיים שמרגישים נכונים לך.
         </p>
-        <p className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-5" style={{ color: "#f5f0e8", opacity: 0.85 }}>
-          בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
-          <br className="hidden md:block" />
-          בדרך גיליתי על עצמי דברים חדשים, חקרתי, והפכתי לגרסה הטובה ביותר של עצמי — היום אני חיה את החיים שתמיד רציתי, עיסוק שממלא אותי, שגרה שנעימה לי, וחיי אהבה.
-        </p>
-        <p className="text-lg md:text-xl font-semibold" style={{ color: "#c9a97a", opacity: 0.8 }}>
-          לחיים שמרגישים נכונים לך
-        </p>
+
+        {/* Divider bottom */}
+        <div className="mx-auto mt-10" style={{ width: "60px", height: "2px", backgroundColor: "#c9a97a" }} />
       </motion.section>
     </>
   );
