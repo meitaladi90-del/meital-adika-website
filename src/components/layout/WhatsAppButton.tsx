@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "972542268860";
 
 export default function WhatsAppButton() {
-  const message = encodeURIComponent("שלום מיטל! אשמח לשמוע עוד על השירותים שלך 😊");
+  const message = encodeURIComponent("שלום מיטל! אשמח לשמוע עוד על השירותים שלך");
   const href = `https://wa.me/${WA_NUMBER}?text=${message}`;
 
   return (
