@@ -6,19 +6,19 @@ import SectionTitle from "@/components/ui/SectionTitle";
 
 const strengths = [
   {
-    icon: "🔍",
+    icon: "",
     title: "דיוק ועומק",
     description:
       "כל קריאה נומרולוגית אצלי היא מסע עמוק לתוך המספרים הייחודיים שלך. אני מנתחת כל מספר, כל צומת, כל דפוס עד שמתגלה התמונה השלמה.",
   },
   {
-    icon: "💛",
+    icon: "",
     title: "מרחב בטוח",
     description:
       "הרגשת שלא הבינו אותך? אצלי את בטוחה. אני יוצרת מרחב חם, ללא שיפוטיות, שבו את יכולה להיות בדיוק מי שאת - עם כל הפחדים, החלומות והספקות.",
   },
   {
-    icon: "🛠",
+    icon: "",
     title: "כלים לחיים",
     description:
       "אני לא נותנת לך תחזיות - אני נותנת לך כלים. כל מפגש מסתיים עם מודעות ברורה ואמצעים מעשיים שאת יכולה ליישם ממש באותו רגע.",
@@ -202,7 +202,7 @@ export default function AboutPage() {
             className="inline-flex items-center gap-2 px-9 py-4 font-bold rounded-full text-lg hover:shadow-[0_6px_24px_rgba(201,169,122,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300"
             style={{ background: "#c9a97a", color: "#5a3e28" }}
           >
-            השאירי פרטים ואחזור אלייך 🤍
+            השאירי פרטים ואחזור אלייך
           </Link>
         </motion.div>
       </section>
