@@ -73,12 +73,7 @@ export default function ServicesPage() {
               style={{ backgroundColor: "#f5f0e8", boxShadow: "0 2px 16px rgba(90,62,40,0.06)", border: "1px solid rgba(201,169,122,0.15)" }}
             >
               <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div
-                  className="w-14 h-14 flex items-center justify-center rounded-xl text-3xl flex-shrink-0"
-                  style={{ backgroundColor: "#ede5d4" }}
-                >
-                  {s.icon}
-                </div>
+
                 <div className="flex-1">
                   {/* Image placeholder */}
                   <div
