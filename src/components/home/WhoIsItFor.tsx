@@ -69,11 +69,11 @@ export default function WhoIsItFor() {
         <p className="text-2xl md:text-3xl font-bold mb-6" style={{ color: "#c9a97a" }}>
           — גם אני הייתי שם —
         </p>
-        <div className="text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-6 space-y-3" style={{ color: "#f5f0e8", opacity: 0.85 }}>
+        <div className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-6 space-y-3" style={{ color: "#f5f0e8", opacity: 0.85 }}>
           <p>בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.</p>
           <p>עד שיום אחד התעוררתי — והחלטתי לשנות כיוון ולחיות את חיי החופש שלי.</p>
           <p>בדרך גיליתי על עצמי דברים חדשים, חקרתי, והפכתי לגרסה הטובה ביותר של עצמי — היום אני חיה את החיים שתמיד רציתי, עיסוק שממלא אותי, שגרה שנעימה לי, וחיי אהבה.</p>
-          <p>ועכשיו אני כאן כדי ללוות אותך בדרך שלך — להתעוררות שלך.</p>
+          <p>ועכשיו אני כאן כדי ללוות אותך בדרך שלך — בהתעוררות שלך.</p>
         </div>
         <p className="text-xl md:text-2xl font-bold" style={{ color: "#c9a97a" }}>
           — לחיים שמרגישים נכונים לך —
