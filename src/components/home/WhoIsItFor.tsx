@@ -5,7 +5,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 
 const cards = [
   {
-    icon: "🌿",
+    icon: "",
     title: "את בצומת דרכים",
     description:
       "את מרגישה שמשהו צריך להשתנות, אבל לא בטוחה לאיפה ללכת. את מחפשת בהירות, כיוון וחיבור מחודש לעצמך.",
@@ -13,7 +13,7 @@ const cards = [
     border: "border-sage/30",
   },
   {
-    icon: "✨",
+    icon: "",
     title: "את מחפשת את עצמך",
     description:
       "את יודעת שיש בך פוטנציאל עצום, אבל לא מצאת עדיין את הדרך לממש אותו. את רוצה לגלות את ייעודך ולחיות חיים שבהם תרגישי שאת מאושרת וקמה עם חשק ליום שמגיע.",
@@ -21,7 +21,7 @@ const cards = [
     border: "border-gold/30",
   },
   {
-    icon: "🦋",
+    icon: "",
     title: "את מוכנה לשינוי",
     description:
       "את מוכנה לפגוש את עצמך לעומק, לצמוח ולהשיל את מה שכבר לא משרת אותך. את רוצה כלים שיעזרו לך לחיות את החיים שאת חולמת עליהם.",
@@ -48,7 +48,7 @@ export default function WhoIsItFor() {
               transition={{ duration: 0.5, delay: i * 0.15 }}
               className={`relative rounded-2xl p-8 bg-gradient-to-br ${card.color} border ${card.border} hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
             >
-              <div className="text-4xl mb-4">{card.icon}</div>
+              {card.icon && <div className="text-4xl mb-4">{card.icon}</div>}
               <h3 className="text-xl font-bold text-brown mb-3">{card.title}</h3>
               <p className="text-brown/70 leading-relaxed">{card.description}</p>
 
