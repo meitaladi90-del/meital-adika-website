@@ -46,7 +46,7 @@ export default function WhoIsItFor() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
-              className={`relative rounded-2xl p-8 bg-gradient-to-br ${card.color} border ${card.border} hover:shadow-lg transition-all duration-300 hover:-translate-y-1`}
+              className={`relative rounded-2xl p-8 bg-gradient-to-br ${card.color} border ${card.border} hover:shadow-lg transition-all duration-300 hover:-translate-y-1 text-center`}
             >
               {card.icon && <div className="text-4xl mb-4">{card.icon}</div>}
               <h3 className="text-xl font-bold text-brown mb-3">{card.title}</h3>
