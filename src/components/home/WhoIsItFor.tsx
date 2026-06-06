@@ -57,6 +57,21 @@ export default function WhoIsItFor() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-14 max-w-2xl mx-auto text-center"
+          dir="rtl"
+        >
+          <p className="text-brown/80 text-lg md:text-xl leading-relaxed">
+            גם אני הייתי שם — בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
+            <br className="hidden md:block" />
+            עברתי את כל הדרך מחיפוש לגילוי, מפחד לעוצמה — ועכשיו אני יודעת בדיוק איך ללוות אותך במסע ההתעוררות שלך, לחיים שמרגישים נכונים לך.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
