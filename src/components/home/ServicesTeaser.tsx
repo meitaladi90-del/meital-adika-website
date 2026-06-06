@@ -1,9 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const items = [
-  { icon: "🔢", label: "ייעוץ אישי 1:1", href: "/services/personal" },
-  { icon: "🎨", label: "סדנאות", href: "/services/workshops" },
-  { icon: "🌸", label: "מעגל נשים", href: "/services/womens-circle" },
+  { image: "/services/consulting.jpeg", label: "ייעוץ אישי 1:1", href: "/services/personal" },
+  { image: "/services/workshop.jpeg", label: "סדנאות", href: "/services/workshops" },
+  { image: "/services/womens-circle.jpeg", label: "מעגל נשים", href: "/services/womens-circle" },
 ];
 
 export default function ServicesTeaser() {
@@ -21,10 +22,16 @@ export default function ServicesTeaser() {
               className="flex flex-col items-center gap-3 group"
             >
               <div
-                className="w-20 h-20 flex items-center justify-center rounded-2xl text-4xl transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
-                style={{ backgroundColor: "#f5f0e8", border: "1px solid rgba(201,169,122,0.3)" }}
+                className="w-24 h-24 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
+                style={{ border: "1px solid rgba(201,169,122,0.3)" }}
               >
-                {item.icon}
+                <Image
+                  src={item.image}
+                  alt={item.label}
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span
                 className="text-sm font-semibold transition-colors duration-200 group-hover:opacity-80"
