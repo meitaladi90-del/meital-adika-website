@@ -125,7 +125,6 @@ export default function Header() {
                     }}
                     onClick={() => setIsOpen(false)}
                   >
-                    <span>✨</span>
                     <span>האנרגיה היומית שלך</span>
                   </Link>
                 </li>
