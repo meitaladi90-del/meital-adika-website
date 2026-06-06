@@ -56,7 +56,7 @@ export default function HomeContactForm() {
         >
           {status === "success" ? (
             <div className="text-center py-8">
-              <div className="text-5xl mb-4">🤍</div>
+              <div className="text-5xl mb-4"></div>
               <h3 className="text-2xl font-bold text-brown mb-3">קיבלתי!</h3>
               <p className="text-brown/70 leading-relaxed">
                 אחזור אליך תוך 24 שעות. מחכה לדבר איתך!
