@@ -63,13 +63,19 @@ export default function WhoIsItFor() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-14 max-w-2xl mx-auto text-center"
+          className="mt-14 max-w-2xl mx-auto rounded-2xl px-8 py-10 text-center"
           dir="rtl"
+          style={{ backgroundColor: "#5a3e28" }}
         >
-          <p className="text-brown/80 text-lg md:text-xl leading-relaxed">
-            גם אני הייתי שם — בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
-            <br className="hidden md:block" />
-            עברתי את כל הדרך מחיפוש לגילוי, מפחד לעוצמה — ועכשיו אני יודעת בדיוק איך ללוות אותך במסע ההתעוררות שלך, לחיים שמרגישים נכונים לך.
+          <p className="text-2xl md:text-3xl font-bold mb-4" style={{ color: "#c9a97a" }}>
+            גם אני הייתי שם
+          </p>
+          <p className="text-base md:text-lg leading-relaxed mb-4" style={{ color: "#f5f0e8", opacity: 0.85 }}>
+            בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
+            עברתי את כל הדרך מחיפוש לגילוי, מפחד לעוצמה — ועכשיו אני יודעת בדיוק איך ללוות אותך במסע ההתעוררות שלך.
+          </p>
+          <p className="text-xl md:text-2xl font-bold" style={{ color: "#c9a97a" }}>
+            לחיים שמרגישים נכונים לך
           </p>
         </motion.div>
       </div>
