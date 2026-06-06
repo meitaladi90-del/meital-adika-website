@@ -66,15 +66,15 @@ export default function WhoIsItFor() {
         dir="rtl"
         style={{ backgroundColor: "#5a3e28" }}
       >
-        <p className="text-2xl md:text-3xl font-bold mb-5" style={{ color: "#c9a97a" }}>
+        <p className="text-3xl md:text-4xl font-bold mb-5" style={{ color: "#c9a97a" }}>
           גם אני הייתי שם
         </p>
-        <p className="text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-5" style={{ color: "#f5f0e8", opacity: 0.85 }}>
+        <p className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-5" style={{ color: "#f5f0e8", opacity: 0.85 }}>
           בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.
           <br className="hidden md:block" />
           בדרך גיליתי על עצמי דברים חדשים, חקרתי, והפכתי לגרסה הטובה ביותר של עצמי — היום אני חיה את החיים שתמיד רציתי, עיסוק שממלא אותי, שגרה שנעימה לי, וחיי אהבה.
         </p>
-        <p className="text-2xl md:text-3xl font-bold" style={{ color: "#c9a97a" }}>
+        <p className="text-lg md:text-xl font-semibold" style={{ color: "#c9a97a", opacity: 0.8 }}>
           לחיים שמרגישים נכונים לך
         </p>
       </motion.section>
