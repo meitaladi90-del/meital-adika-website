@@ -60,7 +60,7 @@ export default function RegistrationForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="bg-cream rounded-2xl p-8 text-center"
       >
-        <div className="text-5xl mb-4">🎉</div>
+        <div className="text-5xl mb-4"></div>
         <h3 className="text-2xl font-bold text-brown mb-3">נרשמת בהצלחה!</h3>
         <p className="text-brown/70 leading-relaxed">
           אימייל אישור נשלח אליך. אחזור אליך תוך 24 שעות לסיום תיאום המפגשים.
