@@ -108,7 +108,7 @@ export default function Footer() {
           className="mt-12 pt-8 border-t border-cream/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-cream/40"
         >
           <p>© {new Date().getFullYear()} מיטל עדיקה. כל הזכויות שמורות.</p>
-          <p>עוצב ופותח באהבה 💛</p>
+          <p>עוצב ופותח באהבה</p>
         </div>
       </div>
     </footer>
