@@ -67,7 +67,7 @@ export default function WhoIsItFor() {
         style={{ backgroundColor: "#5a3e28" }}
       >
         <p className="text-2xl md:text-3xl font-bold mb-6" style={{ color: "#c9a97a" }}>
-          — גם אני הייתי שם —
+          גם אני הייתי שם
         </p>
         <div className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-6 space-y-3" style={{ color: "#f5f0e8", opacity: 0.85 }}>
           <p>בתוך המטריקס של החיים. עובדת, מתפקדת, ומרגישה שמשהו חסר.</p>
@@ -76,7 +76,7 @@ export default function WhoIsItFor() {
           <p>ועכשיו אני כאן כדי ללוות אותך בדרך שלך — בהתעוררות שלך.</p>
         </div>
         <p className="text-xl md:text-2xl font-bold" style={{ color: "#c9a97a" }}>
-          — לחיים שמרגישים נכונים לך —
+          לחיים שמרגישים נכונים לך
         </p>
       </motion.section>
     </>
