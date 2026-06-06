@@ -63,7 +63,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-9 py-4 font-bold rounded-full text-lg transition-all duration-300 hover:shadow-[0_8px_30px_rgba(201,169,122,0.4)] hover:-translate-y-0.5 active:translate-y-0"
               style={{ background: "#c9a97a", color: "#5a3e28" }}
             >
-              השאירי פרטים ואחזור אלייך 🤍
+              השאירי פרטים ואחזור אלייך
             </button>
           </motion.div>
 
