@@ -22,14 +22,14 @@ export default function ServicesTeaser() {
               className="flex flex-col items-center gap-3 group"
             >
               <div
-                className="w-36 h-36 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
+                className="w-44 h-44 rounded-2xl overflow-hidden transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-1"
                 style={{ border: "1px solid rgba(201,169,122,0.3)" }}
               >
                 <Image
                   src={item.image}
                   alt={item.label}
-                  width={96}
-                  height={96}
+                  width={176}
+                  height={176}
                   className="w-full h-full object-cover"
                 />
               </div>
