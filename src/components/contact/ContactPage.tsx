@@ -55,7 +55,7 @@ export default function ContactPage() {
         >
           <p className="text-gold text-sm tracking-widest uppercase mb-3">צרי קשר</p>
           <h1 className="text-4xl md:text-5xl font-bold text-brown">
-            בואי נדבר 🤍
+            בואי נדבר
           </h1>
         </motion.div>
       </section>
@@ -71,7 +71,7 @@ export default function ContactPage() {
           >
             {status === "success" ? (
               <div className="text-center py-10">
-                <div className="text-5xl mb-5">🌸</div>
+                <div className="text-5xl mb-5"></div>
                 <h3 className="text-2xl font-bold text-brown mb-3">קיבלתי!</h3>
                 <p className="text-brown/70 leading-relaxed text-lg">
                   אחזור אליך תוך 24 שעות.
